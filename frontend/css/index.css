@@ -1,0 +1,87 @@
+/* General Page */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f7f9fc;
+  color: #333;
+}
+
+/* Header */
+.header {
+  background: white;
+  padding: 15px 40px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2b468b;
+}
+
+.nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #2b468b;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Main Section */
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+}
+
+.hero {
+  text-align: center;
+  max-width: 500px;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+.hero h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #2b468b;
+}
+
+.hero p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.button {
+  display: inline-block;
+  background: #4A5CFF;
+  color: white;
+  padding: 12px 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.button:hover {
+  background: #3242ff;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 15px;
+  background: #eef2fa;
+  margin-top: 50px;
+  color: #666;
+}
