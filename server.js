@@ -2,6 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
+const Patient = require("./models/Patient");
+const Prediction = require("./models/Prediction");
+
+
 
 require("dotenv").config();
 const connectDB = require("./config/db");
@@ -54,7 +58,47 @@ app.post("/login", async (req, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
   res.json({ message: "Login successful", token });
 });
-//
+//this module is for
+// Save patient data
+app.post("/api/patient", async (req, res) => {
+  try {
+    const patient = await Patient.create(req.body);
+    res.status(201).json(patient);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// Predict premature birth risk (mock ML)
+app.post("/api/predict", async (req, res) => {
+  try {
+    // 1️⃣ Save patient data
+    const patient = await Patient.create(req.body);
+
+    // 2️⃣ Mock ML response (temporary)
+    const mlResponse = {
+      risk: "High",
+      probability: 0.78
+    };
+
+    // 3️⃣ Save prediction result
+    const prediction = await Prediction.create({
+      patient: patient._id,
+      risk: mlResponse.risk,
+      probability: mlResponse.probability
+    });
+
+    // 4️⃣ Return result
+    res.json({
+      patient,
+      prediction
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Prediction failed", error });
+  }
+});
+
 
 // Start server
 const PORT = process.env.PORT || 5000;
