@@ -1,2 +1,4 @@
-# premature-birth-risk
-# premature-birth-risk
+## ▶️ Run Locally
+```bash
+npm install
+npm run dev
