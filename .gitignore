@@ -1,4 +1,20 @@
 node_modules/
 .env
 
+# ===== Python =====
+__pycache__/
+*.pyc
+*.pyo
+
+# ===== Virtual Environments =====
+venv/
+ml_api/venv/
+
+# ===== ML Model Files (large) =====
+*.pkl
+*.joblib
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
 

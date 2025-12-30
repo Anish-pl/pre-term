@@ -2,33 +2,31 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
-const Patient = require("./models/Patient");
-const Prediction = require("./models/Prediction");
-
-
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 require("dotenv").config();
 const connectDB = require("./config/db");
-connectDB();
-const app = express();
+const Patient = require("./models/Patient");
+const Prediction = require("./models/Prediction");
 const User = require("./models/User");
-const bcrypt = require("bcryptjs"); //for signup
-const jwt = require("jsonwebtoken"); //for login
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+connectDB();
+
+const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
 // Serve frontend files
 app.use(express.static(path.join(__dirname, "frontend")));
 
-
-
-// Landing page (index.html)
+// Landing page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "frontend", "index.html"));
 });
 
 // Signup route
-
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
@@ -39,8 +37,8 @@ app.post("/signup", async (req, res) => {
     return res.status(400).json({ message: "User already exists" });
 
   const hashedPwd = await bcrypt.hash(password, 10);
-
   await User.create({ email, password: hashedPwd });
+
   res.json({ message: "Signup successful" });
 });
 
@@ -48,17 +46,15 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (!user)
-    return res.status(401).json({ message: "Invalid credentials" });
+  if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch)
-    return res.status(401).json({ message: "Invalid credentials" });
+  if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
   res.json({ message: "Login successful", token });
 });
-//this module is for
+
 // Save patient data
 app.post("/api/patient", async (req, res) => {
   try {
@@ -69,36 +65,39 @@ app.post("/api/patient", async (req, res) => {
   }
 });
 
-// Predict premature birth risk (mock ML)
+// Predict premature birth risk via your ML API
 app.post("/api/predict", async (req, res) => {
   try {
-    // 1️⃣ Save patient data
+    // 1️⃣ Save patient data in DB (from friend’s logic)
     const patient = await Patient.create(req.body);
 
-    // 2️⃣ Mock ML response (temporary)
-    const mlResponse = {
-      risk: "High",
-      probability: 0.78
-    };
-
-    // 3️⃣ Save prediction result
-    const prediction = await Prediction.create({
-      patient: patient._id,
-      risk: mlResponse.risk,
-      probability: mlResponse.probability
+    // 2️⃣ Call your ML server
+    const response = await fetch("http://127.0.0.1:8000/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body)
     });
 
-    // 4️⃣ Return result
+    const mlResult = await response.json();
+
+    // 3️⃣ Save prediction in DB
+    const prediction = await Prediction.create({
+      patient: patient._id,
+      risk: mlResult.risk,
+      probability: mlResult.probability
+    });
+
+    // 4️⃣ Return result to frontend
     res.json({
       patient,
       prediction
     });
 
-  } catch (error) {
-    res.status(500).json({ message: "Prediction failed", error });
+  } catch (err) {
+    console.error("ML server error:", err.message);
+    res.status(500).json({ error: "Prediction failed", details: err.message });
   }
 });
-
 
 // Start server
 const PORT = process.env.PORT || 5000;
