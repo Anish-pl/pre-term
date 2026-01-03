@@ -18,3 +18,4 @@ ml_api/venv/
 .DS_Store
 Thumbs.db
 
+.env

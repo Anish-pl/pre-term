@@ -12,7 +12,11 @@ const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-connectDB();
+
+connectDB().catch(err => {
+  console.error("❌ MongoDB connection failed:", err.message);
+});
+
 
 const app = express();
 app.use(cors());
