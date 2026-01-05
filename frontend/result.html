@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediction Result</title>
+  <link rel="stylesheet" href="css/form.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Prediction Result</h2>
+    <div id="result-box">
+      <p><strong>Risk:</strong> <span id="risk"></span></p>
+      <p><strong>Probability:</strong> <span id="prob"></span></p>
+    </div>
+    <a href="form.html" class="btn-home">Back to Form</a>
+  </div>
+
+  <script>
+    const data = JSON.parse(sessionStorage.getItem('prediction'));
+    console.log('Prediction data:', data);
+    
+    if (!data) {
+      document.getElementById('result-box').innerHTML = "<p>No prediction data found.</p>";
+    } else {
+      document.getElementById('risk').textContent = data.prediction.risk;
+      const prob = Number(data.prediction.probability);
+      document.getElementById('prob').textContent = (prob * 100).toFixed(2) + "%";
+
+
+    }
+  </script>
+</body>
+</html>

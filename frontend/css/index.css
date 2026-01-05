@@ -21,14 +21,14 @@ body {
 .logo {
   font-size: 22px;
   font-weight: bold;
-  color: #2b468b;
+  color: #45a049;
 }
 
 .nav a {
   margin-left: 20px;
   text-decoration: none;
   font-size: 16px;
-  color: #2b468b;
+  color: #45a049;
 }
 
 .nav a:hover {
@@ -55,7 +55,7 @@ body {
 .hero h2 {
   font-size: 28px;
   margin-bottom: 10px;
-  color: #2b468b;
+  color: #45a049;
 }
 
 .hero p {
@@ -66,7 +66,7 @@ body {
 
 .button {
   display: inline-block;
-  background: #4A5CFF;
+  background: #45a049;
   color: white;
   padding: 12px 20px;
   text-decoration: none;
@@ -75,7 +75,7 @@ body {
 }
 
 .button:hover {
-  background: #3242ff;
+  background: #45a049;
 }
 
 /* Footer */
