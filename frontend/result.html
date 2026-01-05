@@ -12,10 +12,19 @@
       <p><strong>Risk:</strong> <span id="risk"></span></p>
       <p><strong>Probability:</strong> <span id="prob"></span></p>
     </div>
-    <a href="form.html" class="btn-home">Back to Form</a>
+    <button id="backToForm">← Back to Form</button>
   </div>
 
   <script>
+    
+  document.getElementById('backToForm').addEventListener('click', () => {
+    // Set step index to step 3 (index 2)
+    sessionStorage.setItem('currentStep', "2");
+
+    // Go back
+    window.location.href = "form.html";
+  });
+
     const data = JSON.parse(sessionStorage.getItem('prediction'));
     console.log('Prediction data:', data);
     
@@ -23,7 +32,7 @@
       document.getElementById('result-box').innerHTML = "<p>No prediction data found.</p>";
     } else {
       document.getElementById('risk').textContent = data.prediction.risk;
-      const prob = Number(data.prediction.probability);
+      const prob = (data.prediction.probability);
       document.getElementById('prob').textContent = (prob * 100).toFixed(2) + "%";
 
 
