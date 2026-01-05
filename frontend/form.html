@@ -384,20 +384,22 @@
           <option>No</option>
         </select>
 
-        <div class="buttons">
+        <div id="loading" style="display:none; text-align:center; padding:20px;">
+         <div class="spinner"></div>
+         <p id="loading-text">Predicting your risk<span id="dots">...</span></p>
+        </div>
+
+         <div class="buttons">
           <button type="button" class="btn-prev" data-action="prev">← Previous</button>
           <button type="submit" class="btn-submit">Submit</button>
         </div>
       </div>
 
 
+    </form>
 
-      <div id="loading">Processing prediction… please wait.</div>
-      <div id="result"></div>
   </div>
+  
+
 </body>
-
-
-</body>
-
 </html>

@@ -85,17 +85,18 @@ app.post("/api/predict", async (req, res) => {
     const mlResult = await response.json();
 
     // 3️⃣ Save prediction in DB
-    const prediction = await Prediction.create({
-      patient: patient._id,
-      risk: mlResult.risk,
-      probability: mlResult.probability
-    });
+  const prediction = await Prediction.create({
+  patient: patient._id,
+  risk: mlResult.risk,
+  probability: mlResult.probability  // store as received
+});
 
-    // 4️⃣ Return result to frontend
-    res.json({
-      patient,
-      prediction
-    });
+// Send numeric probability for frontend
+res.json({
+  patient,
+  prediction,
+});
+
 
   } catch (err) {
     console.error("ML server error:", err.message);
