@@ -104,6 +104,30 @@ res.json({
   }
 });
 
+
+
+////for image processing
+import multer from "multer";
+import { extractRawText } from "./ocrService.js";
+import { extractModelFeatures } from "./featureFilter.js";
+
+const upload = multer({ dest: "uploads/" });
+
+app.post("/api/upload-report", upload.single("report"), async (req, res) => {
+  try {
+    const rawText = await extractRawText(req.file.path);
+    const extractedFeatures = extractModelFeatures(rawText);
+
+    res.json({
+      raw_text: rawText,
+      extracted_features: extractedFeatures
+    });
+  } catch (err) {
+    res.status(500).json({ error: "OCR failed" });
+  }
+});
+
+
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>

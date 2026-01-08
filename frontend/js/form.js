@@ -97,3 +97,29 @@
   // INITIALIZE
   showStep(current);
 })();
+//for image processing logic
+// const reportInput = document.getElementById("reportUpload");
+
+// if (reportInput) {
+//   reportInput.addEventListener("change", async () => {
+//     const file = reportInput.files[0];
+//     if (!file) return;
+
+//     const formData = new FormData();
+//     formData.append("report", file);
+
+//     const res = await fetch("/api/upload-report", {
+//       method: "POST",
+//       body: formData
+//     });
+
+//     const data = await res.json();
+//     const f = data.extracted_features;
+
+//     if (f.hep_b) document.getElementById("hep_b").value = f.hep_b;
+//     if (f.syphilis) document.getElementById("syphilis").value = f.syphilis;
+//     if (f.hep_c) document.getElementById("hep_c").value = f.hep_c;
+//     if (f.gonorrhea) document.getElementById("gonorrhea").value = f.gonorrhea;
+//     if (f.chlamydia) document.getElementById("chlamydia").value = f.chlamydia;
+//   });
+// }
