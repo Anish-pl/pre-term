@@ -3,6 +3,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const navMenu = document.getElementById("navMenu");
   const startBtn = document.getElementById("startBtn");
+  const imageBtn = document.getElementById("imageBtn");
 
   const user = localStorage.getItem("loggedInUser");
 
@@ -14,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     startBtn.style.display = "inline-block"; // show button
+    imageBtn.style.display = "inline-block";
+
   } else {
     // User NOT logged in
     navMenu.innerHTML = `
@@ -22,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     startBtn.style.display = "none"; // hide button
+    imageBtn.style.display = "none";
   }
 
   // Logout logic

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Premature Birth Risk Predictor</title>
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/imageprocess.css">
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="logo">Birth Risk Predictor</h1>
+
+    <nav id="navMenu" class="nav">
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <h2>Upload Your Medical Report</h2>
+      <p>This tool extracts relevant medical data from your uploaded image report.</p>
+
+      <form id="imageForm">
+        <input type="file" id="imageInput" accept="image/*" required />
+        <br><br>
+        <button type="submit">Process Image</button>
+      </form>
+      <div id="loader" style="display:none; margin-top:20px;">
+        <strong>⏳ Processing image, please wait...</strong>
+      </div>
+
+      <h3>Extracted Raw Text</h3>
+      <pre id="rawTextOutput"></pre>
+
+      <h3>Extracted Features</h3>
+      <table id="featuresOutput" border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+    </section>
+  </main>
+
+  <!-- <footer class="footer">
+    <p>Disclaimer: This tool is for informational purposes only, not medical advice.</p>
+  </footer> -->
+
+  <script src="js/imageprocess.js" defer></script>
+</body>
+</html>
