@@ -106,16 +106,18 @@ res.json({
 
 
 
-////for image processing
-import multer from "multer";
-import { extractRawText } from "./ocrService.js";
-import { extractModelFeatures } from "./featureFilter.js";
+//for image processing
+const multer = require("multer");
+// Image processing services
+const { extractTextFromImage } = require("./imageprocessing/services/ocr.service.js");
+const { extractModelFeatures } = require("./imageprocessing/routes/featureFilter.js");
 
-const upload = multer({ dest: "uploads/" });
+
+const upload = multer({ dest: "imageprocessing/uploads/" });
 
 app.post("/api/upload-report", upload.single("report"), async (req, res) => {
   try {
-    const rawText = await extractRawText(req.file.path);
+    const rawText = await extractTextFromImage(req.file.path);
     const extractedFeatures = extractModelFeatures(rawText);
 
     res.json({
