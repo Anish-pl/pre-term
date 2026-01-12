@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Patient Report Image Generator</title>
+
+    <!-- html2canvas CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+
+        #report {
+            width: 750px;
+            margin: auto;
+            background: #ffffff;
+            padding: 25px;
+            border: 2px solid #222;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 1px solid #999;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        td:first-child {
+            font-weight: bold;
+            width: 45%;
+            background: #f1f1f1;
+        }
+
+        .btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PATIENT REPORT -->
+    <div id="report">
+        <h2>Patient Clinical Report</h2>
+
+        <table id="reportTable"></table>
+    </div>
+
+    <button class="btn" onclick="downloadImage()">Download Image</button>
+
+    <script>
+        /* ==========================
+           DEMO PATIENT DATA (DISPLAY)
+           ========================== */
+
+        const demoPatientData = {
+            "Mother Age": "28 years",
+            "Father Age": "30 years",
+            "Marital Status": "Married",
+            "Mother Education": "Bachelor's Degree",
+            "Father Education": "Bachelor's Degree",
+            "Prior Living Children": "1",
+            "Prior Deceased Children": "0",
+            "Previous Pregnancy Terminations": "0",
+            "Months Since Last Live Birth": "12",
+            "Mother Height": "64 inches",
+            "Body Mass Index (BMI)": "24.5",
+            "Weight Gain": "20 lbs",
+            "Prenatal Care Started": "4–6 months",
+            "Number of Prenatal Visits": "5–6 visits",
+            "Smoking Before Pregnancy": "No",
+            "Smoking During Pregnancy": "No",
+            "Pre-pregnancy Diabetes": "No",
+            "Gestational Diabetes": "No",
+            "Pre-pregnancy Hypertension": "No",
+            "Gestational Hypertension": "No",
+            "Eclampsia": "No",
+            "Previous Preterm Birth": "No",
+            "Infertility Treatment Used": "No",
+            "ART Used": "No",
+            "Previous Cesarean": "No",
+            "Plural Birth": "No"
+        };
+
+        /* ==========================
+           RENDER DATA INTO TABLE
+           ========================== */
+
+        const table = document.getElementById("reportTable");
+
+        for (const key in demoPatientData) {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+        <td>${key}</td>
+        <td>${demoPatientData[key]}</td>
+      `;
+
+            table.appendChild(row);
+        }
+
+        /* ==========================
+           CONVERT REPORT TO IMAGE
+           ========================== */
+
+        function downloadImage() {
+            const report = document.getElementById("report");
+
+            html2canvas(report).then(canvas => {
+                const link = document.createElement("a");
+                link.download = "demo_patient_report.png";
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
+        }
+    </script>
+
+</body>
+
+</html>
