@@ -1,45 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Review Extracted Report</title>
-    <link rel="stylesheet" href="css/form.css">
+    <meta charset="UTF-8" />
+    <title>Review Extracted Medical Data</title>
+    <link rel="stylesheet" href="css/ocr-review.css" />
     <script defer src="js/ocr-review.js"></script>
 </head>
 
 <body>
+    <div class="container">
+        <h2>Extracted Medical Report Data</h2>
+        <p class="subtitle">Please review the automatically extracted information.</p>
 
-    <h2>Medical Report Review</h2>
+        <form id="ocrForm">
+            <div id="ocrFeatures" class="grid"></div>
 
-    <h3>Extracted from Report</h3>
-    <div id="ocrFeatures"></div>
-
-    <h3>Additional Information Required</h3>
-
-    <form id="manualForm">
-
-        <label>Prior Living Children</label>
-        <input type="number" name="prior_living_children" required min="0">
-
-        <label>Prenatal Visits</label>
-        <select name="prenatal_visits" required>
-            <option value="">Choose…</option>
-            <option value="0">0</option>
-            <option value="1">1–2</option>
-            <option value="2">3–4</option>
-            <option value="3">5+</option>
-        </select>
-
-        <label>Marital Status</label>
-        <select name="marital_status" required>
-            <option value="">Choose…</option>
-            <option value="1">Married</option>
-            <option value="0">Unmarried</option>
-        </select>
-
-        <button type="submit">Predict Risk</button>
-    </form>
-
+            <button type="button" id="nextBtn" class="primary-btn">
+                Add Additional Information →
+            </button>
+        </form>
+    </div>
 </body>
 
 </html>

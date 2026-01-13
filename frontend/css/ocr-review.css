@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+h2 {
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 8px;
+    background: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.primary-btn {
+    margin-top: 25px;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    background: #2a6df4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}

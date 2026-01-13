@@ -1,13 +1,68 @@
-#rawTextOutput {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  text-align: left;
-  font-family: monospace;
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 8px;
-  max-width: 800px;
-  margin: 20px auto;
-  line-height: 1.6;
+body {
+  background-color: #f4f7fb;
+}
+
+/* Center container */
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+}
+
+/* Upload card */
+.upload-card {
+  background: #ffffff;
+  padding: 35px;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Heading */
+.upload-card h2 {
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+/* Text */
+.upload-card p {
   font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 25px;
+}
+
+/* File input */
+input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 6px;
+  background: #f9fafb;
+}
+
+/* Submit button */
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1e40af;
+}
+
+/* Loader */
+#loader {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #2563eb;
 }
