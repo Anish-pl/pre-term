@@ -59,7 +59,7 @@
     }
     .btn-prev { background:#6c757d; color:white; }
     .btn-next { background:#28a745; color:white; margin-left:auto; }
-    .btn-submit { background:#007bff; color:white; margin-left:auto; }
+    .btn-submit { background:#45a049; color:white; margin-left:auto; }
 
     #loading { margin-top:14px; padding:10px; background:#fff3cd; border-radius:6px; display:none; }
     #result { margin-top:12px; padding:12px; border-radius:6px; display:none; }

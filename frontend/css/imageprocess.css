@@ -48,7 +48,7 @@ button {
   margin-top: 20px;
   width: 100%;
   padding: 12px;
-  background-color: #2563eb;
+  background-color: #45a049;
   color: white;
   font-size: 15px;
   border: none;
@@ -56,9 +56,6 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #1e40af;
-}
 
 /* Loader */
 #loader {
