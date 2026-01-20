@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Premature Birth Risk Predictor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PreTermCare</title>
   <link rel="stylesheet" href="css/index.css">
   <script defer src="js/index.js"></script>
 </head>
+
 <body>
 
   <header class="header">
-  <a href="index.html" style="text-decoration: none; color: inherit;">
-    <h1 class="logo" style="cursor: pointer;">Birth Risk Predictor</h1>
-  </a>
+    <a href="index.html" style="text-decoration: none; color: inherit;">
+      <h1 class="logo" style="cursor: pointer;">PreTermCare</h1>
+    </a>
 
     <nav id="navMenu" class="nav">
       <!-- JS will replace these -->
@@ -22,22 +25,39 @@
 
   <main class="main">
     <section class="hero">
-      <h2>Welcome</h2>
-      <p>This tool helps assess premature birth risk based on clinical and lifestyle data.</p>
-      <a href="form.html" id="startBtn" class="button">Start Assessment</a>
-      <a href="imageprocessing.html" id="imageBtn" class="button">Submit Report For Analysis</a>
+      <h2>Welcome to Birth Risk Predictor</h2>
+      <p>Advanced AI-powered assessment combining clinical data and lifestyle factors to provide accurate premature
+        birth risk predictions for expectant mothers.</p>
 
+      <div class="button-group">
+        <a href="login.html" id="loginBtn" class="button button-primary">Login to Proceed</a>
+        <a href="form.html" id="startBtn" class="button button-primary">Start assisment</a>
+        <a href="imageprocessing.html" id="imageBtn" class="button button-secondary">Medical Report </a>
+      </div>
     </section>
   </main>
+
+  <section class="stats-section">
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Assessments Done</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">84%</div>
+        <div class="stat-label">Accuracy Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">&lt;30s</div>
+        <div class="stat-label">Average Time</div>
+      </div>
+    </div>
+  </section>
 
   <footer class="footer">
     <p>Disclaimer: This tool is for informational purposes only, not medical advice.</p>
   </footer>
 
 </body>
-</html>
-<!-- 
- 
- yo image processing branch 
 
- -->
+</html>

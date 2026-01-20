@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Upload Medical Report</title>
@@ -11,28 +10,49 @@
 <body>
 
   <header class="header">
-   <a href="index.html" style="text-decoration: none; color: inherit;">
-    <h1 class="logo" style="cursor: pointer;">Birth Risk Predictor</h1>
-   </a>
+    <a href="index.html" style="text-decoration: none; color: inherit;">
+      <h1 class="logo" style="cursor: pointer;">PreTermCare</h1>
+    </a>
   </header>
 
   <main class="main">
     <section class="upload-card">
-      <h2>Upload Medical Report</h2>
-      <p>Please upload your pregnancy medical report image.</p>
 
+      <div class="upload-icon">📄</div>
+
+      <h2>Upload Medical Report</h2>
+      <p class="subtitle">
+        Upload your pregnancy medical report and the system will automatically extract values and fill the prediction form for you.
+      </p>
+
+      <div class="info-box">
+        <b>Steps:</b>
+        <ul>
+          <li>Upload clear report image</li>
+          <li>Wait for automatic extraction</li>
+          <li>Review extracted data</li>
+          <li>Submit prediction form</li>
+        </ul>
+      </div>
+
+      <!-- DO NOT CHANGE IDS -->
       <form id="imageForm">
         <input type="file" id="imageInput" accept="image/*" required />
-        <button type="submit">Extract Report Data</button>
+        <button type="submit">Extract Report Data & Fill</button>
       </form>
 
-      <div id="loader" style="display:none;">
+      <!-- DO NOT CHANGE ID -->
+      <div id="loader">
         ⏳ Extracting report data...
       </div>
+
+      <p class="note">
+        Your data is processed securely and not stored.
+      </p>
+
     </section>
   </main>
 
   <script src="js/imageprocess.js"></script>
 </body>
-
 </html>

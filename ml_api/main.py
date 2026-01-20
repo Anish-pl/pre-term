@@ -21,14 +21,14 @@ app.add_middleware(
 # Load trained pipeline
 # -------------------------
 model_pipeline = joblib.load("final_preterm_full_pipeline.pkl")
+cluster_bundle = joblib.load("risk_cluster_pipeline.pkl")
 
+cluster_pipeline = cluster_bundle["pipeline"]
+kmeans_features = cluster_bundle["features"]
 pipe = joblib.load("final_preterm_full_pipeline.pkl")
 print(type(pipe))
 print(pipe)
 
-# -------------------------
-# Helper converters
-# -------------------------
 def to_int(val):
     try:
         return int(val)
@@ -41,9 +41,7 @@ def to_float(val):
     except:
         return np.nan
 
-# -------------------------
-# ORDINAL MAPS (MATCH TRAINING)
-# -------------------------
+
 MEDUC_MAP = {
     "8th grade or less": 1,
     "9th-12th grade, no diploma": 2,
@@ -120,14 +118,15 @@ def map_marital(val):
     return np.nan
 
 def yn(val):
-    if val is None:
-        return np.nan
+    if val is None or val.strip() == "":
+        return "U"   # Unknown
     val = val.strip().lower()
     if val == "yes":
-        return 1
+        return "Y"
     if val == "no":
-        return 0
-    return np.nan
+        return "N"
+    return "U"
+
 
 
 class FormData(BaseModel):
@@ -165,18 +164,18 @@ class FormData(BaseModel):
     gest_diabetes: str
     pre_hyper: str
     gest_hyper: str
-    eclampsia: str | None = "No"
+    eclampsia: str | None = None
     prev_preterm: str
-    infertility_treat: str | None = "No"
-    fertility_drugs: str | None = "No"
-    art: str | None = "No"
-    prev_csection: str | None = "No"
+    fertility_drugs: str | None = None
+    infertility_treat: str | None = None
+    art: str | None = None
+    prev_csection: str | None = None
 
-    gonorrhea: str | None = "No"
-    syphilis: str | None = "No"
-    chlamydia: str | None = "No"
-    hep_b: str | None = "No"
-    hep_c: str | None = "No"
+    gonorrhea: str | None = None
+    syphilis: str | None = None
+    chlamydia: str | None = None
+    hep_b: str | None = None
+    hep_c: str | None = None
 
 
 @app.post("/predict")
@@ -236,25 +235,51 @@ def predict(data: FormData):
         "mar_p": map_paternity(data.paternity),
     }
     # Columns that go into one-hot
-    onehot_cols = [
-        "ip_gon", "ip_chlam", "rf_ghype", "rf_cesar",
-        "rf_inftr", "rf_phype", "rf_artec", "ip_hepb",
-        "mar_p", "rf_ppterm", "ip_syph", "rf_pdiab",
-        "rf_ehype", "ip_hepc", "rf_gdiab", "rf_fedrg"
-    ]
+    # onehot_cols = [
+    #     "ip_gon", "ip_chlam", "rf_ghype", "rf_cesar",
+    #     "rf_inftr", "rf_phype", "rf_artec", "ip_hepb",
+    #     "mar_p", "rf_ppterm", "ip_syph", "rf_pdiab",
+    #     "rf_ehype", "ip_hepc", "rf_gdiab", "rf_fedrg"
+    # ]
 
-    # Cast them to strings before creating DataFrame
-    for col in onehot_cols:
-        features[col] = str(features[col])
+    # # Cast them to strings before creating DataFrame
+    # for col in onehot_cols:
+    #     features[col] = str(features[col])
 
 
     df = pd.DataFrame([features])
-    print(df.dtypes)
-    print(df)
+    cluster_input = df[kmeans_features]
+    risk_cluster = int(cluster_pipeline.predict(cluster_input)[0])
+    df["risk_cluster"] = risk_cluster
 
+    print("\n----- RAW USER INPUT -----")
+    print(data)
+
+    print("\n----- DYPES -----")
+    print(df.dtypes)
+
+    print("\n----- RISK CLUSTER -----")
+    print(risk_cluster)
+    print("\n----- MODEL INPUT DATAFRAME (row-wise) -----")
+    for col in df.columns:
+        print(f"{col}: {df.iloc[0][col]}")
     prediction = model_pipeline.predict(df)[0]
+    print(prediction)
+    proba = model_pipeline.predict_proba(df)[0][1]
+    print(proba)
 
     return {
         "prediction": int(prediction),
-        "risk": "High Risk of Preterm Birth" if prediction == 1 else "Low Risk of Preterm Birth"
+        "risk": "High Risk of Preterm Birth" if prediction == 1 else "Low Risk of Preterm Birth",
+        "probability": float(proba)
     }
+
+    # return {
+    #         "prediction": {
+    #             "label": prediction,
+    #             "risk_cluster": risk_cluster,
+    #             "risk": "High Risk of Preterm Birth" if prediction == 1 else "Low Risk of Preterm Birth",
+    #             "probability": proba
+    #         }
+    #     }
+

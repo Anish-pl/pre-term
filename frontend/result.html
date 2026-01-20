@@ -1,42 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Prediction Result</title>
   <link rel="stylesheet" href="css/form.css">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #eef2f7, #dfe9f3);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    .container {
+      max-width: 420px;
+      width: 100%;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #2c3e50;
+    }
+
+    #result-box {
+      padding: 20px;
+      border-radius: 12px;
+      background: #f8fafc;
+      margin-bottom: 25px;
+    }
+
+    #result-box p {
+      font-size: 1.1rem;
+      margin: 15px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #risk {
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #ffe5e5;
+      color: #c0392b;
+    }
+
+    #prob {
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #4facfe, #00c6ff);
+      color: #fff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="container">
     <h2>Prediction Result</h2>
+
     <div id="result-box">
-      <p><strong>Risk:</strong> <span id="risk"></span></p>
-      <p><strong>Probability:</strong> <span id="prob"></span></p>
+      <p>
+        <strong>Risk</strong>
+        <span id="risk"></span>
+      </p>
+      <p>
+        <strong>Probability</strong>
+        <span id="prob"></span>
+      </p>
     </div>
+
     <button id="backToForm">← Back to Form</button>
   </div>
 
   <script>
-    
-  document.getElementById('backToForm').addEventListener('click', () => {
-    // Set step index to step 3 (index 2)
-    sessionStorage.setItem('currentStep', "2");
-
-    // Go back
-    window.location.href = "form.html";
-  });
+    document.getElementById('backToForm').addEventListener('click', () => {
+      sessionStorage.setItem('currentStep', "2");
+      window.location.href = "form.html";
+    });
 
     const data = JSON.parse(sessionStorage.getItem('prediction'));
     console.log('Prediction data:', data);
-    
+
     if (!data) {
-      document.getElementById('result-box').innerHTML = "<p>No prediction data found.</p>";
+      document.getElementById('result-box').innerHTML =
+        "<p style='text-align:center;'>No prediction data found.</p>";
     } else {
       document.getElementById('risk').textContent = data.prediction.risk;
-      const prob = (data.prediction.probability);
-      document.getElementById('prob').textContent = (prob * 100).toFixed(2) + "%";
-
-
+      const prob = data.prediction.probability;
+      document.getElementById('prob').textContent =
+        (prob * 100).toFixed(2) + "%";
     }
   </script>
 </body>
+
 </html>

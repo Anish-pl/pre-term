@@ -8,6 +8,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 85vh;
+  padding: 20px;
 }
 
 /* Upload card */
@@ -15,23 +16,49 @@ body {
   background: #ffffff;
   padding: 35px;
   width: 100%;
-  max-width: 480px;
-  border-radius: 10px;
+  max-width: 520px;
+  border-radius: 14px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Icon */
+.upload-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
 }
 
 /* Heading */
 .upload-card h2 {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: #1f2937;
 }
 
-/* Text */
-.upload-card p {
+/* Subtitle */
+.subtitle {
   font-size: 14px;
   color: #4b5563;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+}
+
+/* Info box */
+.info-box {
+  background: #f0f7ff;
+  border: 1px solid #cfe7ff;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: left;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.info-box ul {
+  margin: 10px 0 0 0;
+  padding-left: 18px;
+}
+
+.info-box li {
+  margin-bottom: 6px;
 }
 
 /* File input */
@@ -39,27 +66,40 @@ input[type="file"] {
   width: 100%;
   padding: 12px;
   border: 2px dashed #cbd5e1;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #f9fafb;
+  cursor: pointer;
 }
 
 /* Submit button */
 button {
   margin-top: 20px;
   width: 100%;
-  padding: 12px;
-  background-color: #45a049;
+  padding: 13px;
+  background-color: #66b5ea;
   color: white;
   font-size: 15px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
 }
 
+button:hover {
+  background-color: #4fa3db;
+}
 
 /* Loader */
 #loader {
   margin-top: 20px;
   font-size: 14px;
   color: #2563eb;
+  font-weight: 600;
+}
+
+/* Note */
+.note {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #6b7280;
 }

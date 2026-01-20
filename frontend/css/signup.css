@@ -1,4 +1,4 @@
-/* ================= LOGIN PAGE ONLY ================= */
+/* ================= SIGNUP PAGE ONLY ================= */
 
 .container {
   background: white;
@@ -6,17 +6,17 @@
   width: 100%;
   max-width: 380px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
 
 .container h2 {
   margin-bottom: 20px;
-  color: #45a049;
+  color: #66b5ea;
 }
 
 /* Inputs */
-#loginForm input {
+#signupForm input {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
@@ -26,10 +26,10 @@
 }
 
 /* Button */
-#loginForm button {
+#signupForm button {
   width: 100%;
   padding: 12px;
-  background: #45a049;
+  background: #66b5ea;
   border: none;
   color: white;
   font-size: 16px;
@@ -38,8 +38,8 @@
   margin-top: 10px;
 }
 
-#loginForm button:hover {
-  background: #3d8f41;
+#signupForm button:hover {
+  background: #66b5ea;
 }
 
 /* Text */
@@ -48,7 +48,7 @@
 }
 
 .container a {
-  color: #45a049;
+  color: #66b5ea;
   text-decoration: none;
 }
 

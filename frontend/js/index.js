@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     startBtn.style.display = "inline-block"; // show button
     imageBtn.style.display = "inline-block";
+    loginBtn.style.display = "none";
+
 
   } else {
     // User NOT logged in
@@ -26,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     startBtn.style.display = "none"; // hide button
     imageBtn.style.display = "none";
+    loginBtn.style.display = "inline-block";
   }
 
   // Logout logic
