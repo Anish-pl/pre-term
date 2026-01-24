@@ -17,13 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const data = await res.json();
 
-    // ✅ STORE OCR FEATURES
     localStorage.setItem(
       "ocr_features",
       JSON.stringify(data.extracted_features)
     );
 
-    // 👉 MOVE TO REVIEW FORM
     window.location.href = "form-ocr-review.html";
   });
 });

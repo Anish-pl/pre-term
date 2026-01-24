@@ -15,7 +15,6 @@
 
   <div class="container">
 
-    <!-- Home button -->
     <a href="index.html" class="btn-home">Home</a>
 
     <h2>Preterm Birth Risk Prediction</h2>
@@ -30,7 +29,7 @@
     </div>
 
     <form id="multiForm" novalidate>
-      <!-- STEP 1 -->
+
       <div class="form-step active" data-step="0">
         <h3>Parental Information</h3>
 
@@ -38,13 +37,7 @@
         <input id="mother_age" name="mother_age" type="number" required min="10" max="60" placeholder="e.g. 28">
 
         <div class="row">
-          <!-- <div class="col">
-            <label for="mother_race">Mother's Race *</label>
-            <select id="mother_race" name="mother_race" required>
-              <option value="">Choose…</option>
-              <option>White</option><option>Black</option><option>AIAN</option><option>Asian</option><option>NHOPI</option><option>More than one</option>
-            </select>
-          </div> -->
+ 
           <div class="col">
             <label for="paternity">Paternity *</label>
             <select id="paternity" name="paternity" required>
@@ -83,17 +76,7 @@
 
         <label for="father_age">Father's Age (optional)</label>
         <input id="father_age" name="father_age" type="number" min="10" max="80" placeholder="optional">
-        <!-- 
-        <label for="father_race">Father's Race (optional)</label>
-        <select id="father_race" name="father_race">
-          <option value="">Choose…</option>
-          <option>White</option>
-          <option>Black</option>
-          <option>AIAN</option>
-          <option>Asian</option>
-          <option>NHOPI</option>
-          <option>More than one</option>
-        </select> -->
+
 
         <label for="father_education">Father's Education (optional)</label>
         <select id="father_education" name="father_education">
@@ -110,12 +93,11 @@
 
 
         <div class="buttons">
-          <div></div><!-- placeholder so Next floats right -->
+          <div></div>
           <button type="button" class="btn-next" data-action="next">Next →</button>
         </div>
       </div>
 
-      <!-- STEP 2 -->
       <div class="form-step" data-step="1">
         <h3>Reproductive & Prenatal History</h3>
 
@@ -138,17 +120,14 @@
         <label for="birth_order">Total Birth Order *</label>
         <input id="birth_order" name="birth_order" type="number" required min="1"
           placeholder="total births including current">
-        <!-- Months Since Last Live Birth -->
         <label for="months_last_live_birth">Months Since Last Live Birth</label>
         <input id="months_last_live_birth" name="months_last_live_birth" type="number" min="0"
           placeholder="Enter 0 if first birth" title="Enter 0 if this is the first birth" />
 
-        <!-- Months Since Last Other Pregnancy -->
         <label for="months_last_other_pregnancy">Months Since Last Other Pregnancy (optional)</label>
         <input id="months_last_other_pregnancy" name="months_last_other_pregnancy" type="number" min="0"
           placeholder="optional" />
 
-        <!-- Months Since Last Pregnancy -->
         <label for="months_last_pregnancy">Months Since Last Pregnancy (optional)</label>
         <input id="months_last_pregnancy" name="months_last_pregnancy" type="number" min="0" placeholder="optional" />
 
@@ -184,12 +163,9 @@
         </div>
       </div>
 
-      <!-- STEP 3 -->
-      <!-- STEP 3 -->
       <div class="form-step" data-step="2">
         <h3>Lifestyle, Medical, and Infection Risk Factors</h3>
 
-        <!-- 1. Cigarettes Before Pregnancy -->
         <label for="cig_before">Cigarettes Before Pregnancy *</label>
         <select id="cig_before" name="cig_before" required>
           <option value="">Choose…</option>
@@ -200,9 +176,7 @@
           <option>21-40</option>
           <option>41+</option>
         </select>
-
-        <!-- 2. Cigarettes - 1st Trimester -->
-        <label for="cig_t1">Cigarettes 1st Trimester *</label>
+          <label for="cig_t2">Cigarettes 1st Trimester</label>
         <select id="cig_t1" name="cig_t1" required>
           <option value="">Choose…</option>
           <option>0</option>
@@ -213,7 +187,6 @@
           <option>41+</option>
         </select>
 
-        <!-- 3. Cigarettes - 2nd Trimester -->
         <label for="cig_t2">Cigarettes 2nd Trimester</label>
         <select id="cig_t2" name="cig_t2">
           <option value="">Optional…</option>
@@ -225,7 +198,6 @@
           <option>41+</option>
         </select>
 
-        <!-- 4. Cigarettes - 3rd Trimester -->
         <label for="cig_t3">Cigarettes 3rd Trimester</label>
         <select id="cig_t3" name="cig_t3">
           <option value="">Optional…</option>
@@ -237,19 +209,15 @@
           <option>41+</option>
         </select>
 
-        <!-- 5. Height -->
         <label for="height">Mother's Height (inches) *</label>
         <input id="height" name="height" type="number" required min="40" max="84" placeholder="e.g., 64">
 
-        <!-- 6. BMI -->
         <label for="bmi">Body Mass Index (BMI)</label>
         <input id="bmi" name="bmi" type="number" step="0.1" placeholder="auto or optional">
 
-        <!-- 7. Weight Gain -->
         <label for="weight_gain">Weight Gain (lbs) *</label>
         <input id="weight_gain" name="weight_gain" type="number" required min="0">
 
-        <!-- 8. Pre-pregnancy Diabetes -->
         <label for="pre_diabetes">Pre-pregnancy Diabetes *</label>
         <select id="pre_diabetes" name="pre_diabetes" required>
           <option value="">Choose…</option>
@@ -257,7 +225,6 @@
           <option>No</option>
         </select>
 
-        <!-- 9. Gestational Diabetes -->
         <label for="gest_diabetes">Gestational Diabetes *</label>
         <select id="gest_diabetes" name="gest_diabetes" required>
           <option value="">Unknown</option>
@@ -265,7 +232,6 @@
           <option>No</option>
         </select>
 
-        <!-- 10. Pre-pregnancy Hypertension -->
         <label for="pre_hyper">Pre-pregnancy Hypertension *</label>
         <select id="pre_hyper" name="pre_hyper" required>
           <option value="">Unknown</option>
@@ -273,7 +239,6 @@
           <option>No</option>
         </select>
 
-        <!-- 11. Gestational Hypertension -->
         <label for="gest_hyper">Gestational Hypertension *</label>
         <select id="gest_hyper" name="gest_hyper" required>
           <option value="">Unknown</option>
@@ -281,7 +246,6 @@
           <option>No</option>
         </select>
 
-        <!-- 12. Eclampsia -->
         <label for="eclampsia">Eclampsia *</label>
         <select id="eclampsia" name="eclampsia" required>
           <option value="">Unknown</option>
@@ -289,15 +253,13 @@
           <option>No</option>
         </select>
 
-        <!-- 13. Previous Preterm Birth -->
-        <label for="prev_preterm">Previous Preterm Birth *</label>
+        <label for="eclampsia">Previous Preterm</label>
         <select id="prev_preterm" name="prev_preterm" required>
           <option value="">Unknown</option>
           <option>Yes</option>
           <option>No</option>
         </select>
 
-        <!-- 14. Infertility Treatment -->
         <label for="infertility_treat">Infertility Treatment Used</label>
         <select id="infertility_treat" name="infertility_treat">
           <option value="">Unknown</option>
@@ -305,7 +267,6 @@
           <option>No</option>
         </select>
 
-        <!-- 15. Fertility Enhancing Drugs -->
         <label for="fertility_drugs">Fertility Enhancing Drugs</label>
         <select id="fertility_drugs" name="fertility_drugs">
           <option value="">Unknown</option>
@@ -314,7 +275,6 @@
           <option>Not Applicable</option>
         </select>
 
-        <!-- 16. ART -->
         <label for="art">Assisted Reproductive Technology</label>
         <select id="art" name="art">
           <option value="">Unknown</option>
@@ -323,7 +283,6 @@
           <option>Not Applicable</option>
         </select>
 
-        <!-- 17. Previous Cesarean -->
         <label for="prev_csection">Previous Cesarean *</label>
         <select id="prev_csection" name="prev_csection" required>
           <option value="">Unknown</option>
@@ -331,12 +290,10 @@
           <option>No</option>
         </select>
 
-        <!-- 18. Number of Cesareans -->
         <label for="num_prev_csection">Number of Previous Cesareans</label>
         <input id="num_prev_csection" name="num_prev_csection" type="number" min="0"
           placeholder="Only if Previous Cesarean = Yes">
 
-        <!-- 19. Gonorrhea -->
         <label for="gonorrhea">Gonorrhea</label>
         <select id="gonorrhea" name="gonorrhea">
           <option value="">Unknown</option>
@@ -344,7 +301,6 @@
           <option>No</option>
         </select>
 
-        <!-- 20. Syphilis -->
         <label for="syphilis">Syphilis</label>
         <select id="syphilis" name="syphilis">
           <option value="">Unknown</option>
@@ -352,7 +308,6 @@
           <option>No</option>
         </select>
 
-        <!-- 21. Chlamydia -->
         <label for="chlamydia">Chlamydia</label>
         <select id="chlamydia" name="chlamydia">
           <option value="">Unknown</option>
@@ -360,7 +315,6 @@
           <option>No</option>
         </select>
 
-        <!-- 22. Hepatitis B -->
         <label for="hep_b">Hepatitis B</label>
         <select id="hep_b" name="hep_b">
           <option value="">Unknown</option>
@@ -368,7 +322,6 @@
           <option>No</option>
         </select>
 
-        <!-- 23. Hepatitis C -->
         <label for="hep_c">Hepatitis C</label>
         <select id="hep_c" name="hep_c">
           <option value="">Unknown</option>
@@ -376,7 +329,6 @@
           <option>No</option>
         </select>
 
-        <!-- 24. Plural Birth -->
         <label for="plural_birth">Plural Birth *</label>
         <select id="plural_birth" name="plural_birth" required>
           <option value="">Choose…</option>

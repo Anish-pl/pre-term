@@ -5,13 +5,11 @@
   const progressBar = document.getElementById('progressBar');
   const loading = document.getElementById('loading');
 
-  // GET SAVED STATE
   const savedStep = sessionStorage.getItem('currentStep');
   let current = savedStep !== null ? parseInt(savedStep) : 0;
 
   const savedData = JSON.parse(sessionStorage.getItem('formData') || "{}");
 
-  // RESTORE FORM VALUES
   for (const [name, value] of Object.entries(savedData)) {
     const el = form.elements[name];
     if (el) el.value = value;
@@ -40,14 +38,12 @@
     return true;
   }
 
-  // SAVE FORM VALUES AS USER TYPES
   form.addEventListener("input", function () {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     sessionStorage.setItem("formData", JSON.stringify(data));
   });
 
-  // NEXT / PREVIOUS
   document.addEventListener("click", function (e) {
     const action = e.target.getAttribute("data-action");
     if (!action) return;
@@ -79,11 +75,18 @@
       const json = await res.json();
 
       if (res.ok) {
+        // ✅ UPDATED: Save complete analysis data including recommendations
+        // Store both in sessionStorage (for backward compatibility) and localStorage (for dashboard)
         sessionStorage.setItem("prediction", JSON.stringify(json));
+        localStorage.setItem("analysisResult", JSON.stringify(json));
+
+        // Also save patient form data for reference
+        localStorage.setItem("patientData", JSON.stringify(data));
 
         setTimeout(() => {
+          // ✅ UPDATED: Redirect to new dashboard instead of result.html
           window.location.href = "result.html";
-        }, 2000); // show loading at least 2s
+        }, 2000);
       } else {
         alert(json.error || "Prediction failed");
         loading.style.display = "none";
@@ -94,32 +97,5 @@
     }
   });
 
-  // INITIALIZE
   showStep(current);
 })();
-//for image processing logic
-// const reportInput = document.getElementById("reportUpload");
-
-// if (reportInput) {
-//   reportInput.addEventListener("change", async () => {
-//     const file = reportInput.files[0];
-//     if (!file) return;
-
-//     const formData = new FormData();
-//     formData.append("report", file);
-
-//     const res = await fetch("/api/upload-report", {
-//       method: "POST",
-//       body: formData
-//     });
-
-//     const data = await res.json();
-//     const f = data.extracted_features;
-
-//     if (f.hep_b) document.getElementById("hep_b").value = f.hep_b;
-//     if (f.syphilis) document.getElementById("syphilis").value = f.syphilis;
-//     if (f.hep_c) document.getElementById("hep_c").value = f.hep_c;
-//     if (f.gonorrhea) document.getElementById("gonorrhea").value = f.gonorrhea;
-//     if (f.chlamydia) document.getElementById("chlamydia").value = f.chlamydia;
-//   });
-// }

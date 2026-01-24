@@ -13,6 +13,5 @@ document.getElementById("manualForm").addEventListener("submit", e => {
 
     localStorage.setItem("final_features", JSON.stringify(finalPayload));
 
-    // prediction comes later
     alert("Data saved successfully!");
 });

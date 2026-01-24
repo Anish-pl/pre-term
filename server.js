@@ -10,13 +10,11 @@ const fetch = (...args) =>
 
 require("dotenv").config();
 
-// DB
 const connectDB = require("./config/db");
 const Patient = require("./models/Patient");
 const Prediction = require("./models/Prediction");
 const User = require("./models/User");
 
-// OCR services
 const { extractTextFromImage } = require("./imageprocessing/services/ocr.service.js");
 const { extractModelFeatures } = require("./imageprocessing/routes/featureFilter.js");
 
@@ -28,7 +26,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Serve frontend
 app.use(express.static(path.join(__dirname, "frontend")));
 
 // Home
@@ -37,9 +34,7 @@ app.get("/", (req, res) => {
 });
 
 
-// ====================== AUTH ======================
 
-// Signup
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
@@ -55,7 +50,6 @@ app.post("/signup", async (req, res) => {
   res.json({ message: "Signup successful" });
 });
 
-// Login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -70,7 +64,6 @@ app.post("/login", async (req, res) => {
 });
 
 
-// ====================== OCR ======================
 
 const upload = multer({ dest: "imageprocessing/uploads/" });
 
@@ -90,14 +83,17 @@ app.post("/api/upload-report", upload.single("report"), async (req, res) => {
 });
 
 
-// ====================== PREDICTION ======================
+
+// Replace your entire /api/predict endpoint in server.js with this:
 
 app.post("/api/predict", async (req, res) => {
+  console.log("🔔 /api/predict endpoint HIT!");  // ← ADD THIS LINE
+  console.log("Request body:", req.body);         // ← ADD THIS LINE
   try {
-    // 1️⃣ Save patient
+    // Save patient data to MongoDB
     const patient = await Patient.create(req.body);
 
-    // 2️⃣ Call ML API
+    // Call the ML API (FastAPI backend)
     const mlRes = await fetch("http://127.0.0.1:8000/predict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -106,24 +102,48 @@ app.post("/api/predict", async (req, res) => {
 
     const mlResult = await mlRes.json();
 
-    // 3️⃣ Save prediction
+    // Log the full ML response for debugging
+    console.log("=== ML API RESPONSE ===");
+    console.log("Prediction:", mlResult.prediction);
+    console.log("Probability:", mlResult.probability);
+    console.log("Has analysis:", !!mlResult.analysis);
+    console.log("Has recommendations:", mlResult.analysis?.recommendations?.length || 0);
+
+    // Save prediction to MongoDB
     const prediction = await Prediction.create({
       patient: patient._id,
       risk: mlResult.risk,
       probability: mlResult.probability
     });
 
-    res.json({ patient, prediction });
+    // ✅ CRITICAL: Return the FULL ML result including analysis
+    // This is what the frontend needs for recommendations and dashboard
+    res.json({
+      // Basic prediction info
+      prediction: mlResult.prediction,
+      risk: mlResult.risk,
+      probability: mlResult.probability,
+      risk_cluster: mlResult.risk_cluster,
+
+      // ⭐ THE COMPLETE ANALYSIS FROM RECOMMENDATION ENGINE ⭐
+      analysis: mlResult.analysis,
+
+      // Optional: Include database IDs for future reference
+      patient_id: patient._id,
+      prediction_id: prediction._id
+    });
+
   } catch (err) {
-    console.error("Prediction error:", err.message);
-    res.status(500).json({ error: "Prediction failed" });
+    console.error("❌ Prediction error:", err.message);
+    console.error("Full error:", err);
+    res.status(500).json({
+      error: "Prediction failed",
+      details: err.message
+    });
   }
 });
 
-
-// ====================== START SERVER ======================
-
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`🚀 Server running on http://localhost:${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});

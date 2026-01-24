@@ -1,6 +1,3 @@
-// imageprocessing/services/ocr.service.js
-// // if you are using tesseract OCR
-
 
 const Tesseract = require("tesseract.js");
 
@@ -14,6 +11,5 @@ async function extractTextFromImage(filePath) {
   }
 }
 
-// ✅ CommonJS export
 module.exports = { extractTextFromImage };
 

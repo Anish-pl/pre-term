@@ -24,7 +24,6 @@ for f, mean, scale in zip(
 # ORDINAL TRANSFORMER
 ord_transformer = preprocessor.named_transformers_["ord"]
 
-# Feature names are stored in ColumnTransformer
 for name, transformer, features in preprocessor.transformers_:
     if name == "ord":
         ordinal_features = features

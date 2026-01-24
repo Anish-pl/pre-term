@@ -14,39 +14,31 @@
 
         <form id="manualForm">
 
-            <!-- 1. Prior Living Children -->
             <label for="prior_living_children">Prior Living Children *</label>
             <input type="number" id="prior_living_children" name="prior_living_children" required min="0" value="0">
 
-            <!-- 2. Prior Deceased Children -->
             <label for="prior_deceased_children">Prior Deceased Children</label>
             <input type="number" id="prior_deceased_children" name="prior_deceased_children" min="0"
                 placeholder="optional">
 
-            <!-- 3. Previous Terminations -->
             <label for="prior_terminations">Previous Pregnancy Terminations</label>
             <input type="number" id="prior_terminations" name="prior_terminations" min="0" placeholder="optional">
 
-            <!-- 4. Total Birth Order -->
             <label for="birth_order">Total Birth Order *</label>
             <input type="number" id="birth_order" name="birth_order" required min="1"
                 placeholder="total births including current">
 
-            <!-- 5. Months Since Last Live Birth -->
             <label for="months_last_live_birth">Months Since Last Live Birth</label>
             <input type="number" id="months_last_live_birth" name="months_last_live_birth" min="0"
                 placeholder="0 if first birth">
 
-            <!-- 6. Months Since Last Other Pregnancy -->
             <label for="months_last_other_pregnancy">Months Since Last Other Pregnancy</label>
             <input type="number" id="months_last_other_pregnancy" name="months_last_other_pregnancy" min="0"
                 placeholder="optional">
 
-            <!-- 7. Months Since Last Pregnancy -->
             <label for="months_last_pregnancy">Months Since Last Pregnancy</label>
             <input type="number" id="months_last_pregnancy" name="months_last_pregnancy" min="0" placeholder="optional">
 
-            <!-- 8. Marital Status -->
             <label for="marital_status">Marital Status *</label>
             <select id="marital_status" name="marital_status" required>
                 <option value="">Choose…</option>
@@ -54,7 +46,6 @@
                 <option value="Unmarried">Unmarried</option>
             </select>
 
-            <!-- 9. Mother's Education -->
             <label for="mother_education">Mother's Education *</label>
             <select id="mother_education" name="mother_education" required>
                 <option value="">Choose…</option>
@@ -68,7 +59,6 @@
                 <option>Doctorate / Professional degree</option>
             </select>
 
-            <!-- 10. Father's Education -->
             <label for="father_education">Father's Education (optional)</label>
             <select id="father_education" name="father_education">
                 <option value="">Choose…</option>
@@ -82,7 +72,6 @@
                 <option>Doctorate / Professional degree</option>
             </select>
 
-            <!-- 11. Prenatal Care Start Month -->
             <label for="prenatal_month">Month Prenatal Care Began *</label>
             <select id="prenatal_month" name="prenatal_month" required>
                 <option value="">Choose…</option>
@@ -92,7 +81,6 @@
                 <option>No care</option>
             </select>
 
-            <!-- 12. Cigarettes Before Pregnancy -->
             <label for="cig_before">Cigarettes Before Pregnancy *</label>
             <select id="cig_before" name="cig_before" required>
                 <option value="">Choose…</option>
@@ -104,7 +92,6 @@
                 <option>41+</option>
             </select>
 
-            <!-- 13. Cigarettes 1st Trimester -->
             <label for="cig_t1">Cigarettes 1st Trimester *</label>
             <select id="cig_t1" name="cig_t1" required>
                 <option value="">Choose…</option>
@@ -116,7 +103,6 @@
                 <option>41+</option>
             </select>
 
-            <!-- 14. Cigarettes 2nd Trimester -->
             <label for="cig_t2">Cigarettes 2nd Trimester</label>
             <select id="cig_t2" name="cig_t2">
                 <option value="">Optional…</option>
@@ -128,7 +114,6 @@
                 <option>41+</option>
             </select>
 
-            <!-- 15. Plural Birth -->
             <label for="plural_birth">Plural Birth *</label>
             <select id="plural_birth" name="plural_birth" required>
                 <option value="">Choose…</option>
@@ -136,7 +121,6 @@
                 <option>No</option>
             </select>
 
-            <!-- Submit -->
             <div class="buttons">
                 <button type="submit" class="btn-submit">Save & Continue</button>
             </div>

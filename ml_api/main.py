@@ -4,10 +4,8 @@ import joblib
 import pandas as pd
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
+from recommendation_engine import PreTermRecommendationEngine  # Import our engine
 
-# -------------------------
-# App & CORS
-# -------------------------
 app = FastAPI()
 
 app.add_middleware(
@@ -17,17 +15,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# -------------------------
-# Load trained pipeline
-# -------------------------
 model_pipeline = joblib.load("final_preterm_full_pipeline.pkl")
 cluster_bundle = joblib.load("risk_cluster_pipeline.pkl")
 
 cluster_pipeline = cluster_bundle["pipeline"]
 kmeans_features = cluster_bundle["features"]
-pipe = joblib.load("final_preterm_full_pipeline.pkl")
-print(type(pipe))
-print(pipe)
+
+# Initialize recommendation engine
+rec_engine = PreTermRecommendationEngine()
 
 def to_int(val):
     try:
@@ -87,19 +82,13 @@ DPLURAL_MAP = {
     "No": 1,
     "Yes": 2
 }
-# MARITAL_MAP = {
-#     "Married":1,
-#     "Unmarried":2
-# }
 
 def map_birth_order(val):
     try:
         return min(int(val), 8)
     except:
         return 9
-    
-# def map_race(val):
-#     return val if val else "Unknown"
+
 
 def map_paternity(val):
     if val == "Yes":
@@ -130,7 +119,6 @@ def yn(val):
 
 
 class FormData(BaseModel):
-    # Numeric
     mother_age: str
     father_age: str | None = None
     prior_living_children: str
@@ -144,7 +132,6 @@ class FormData(BaseModel):
     weight_gain: str | None = None
     num_prev_csection: str | None = "0"
 
-    # Ordinal
     mother_education: str
     father_education: str | None = None
     cig_before: str | None = "0"
@@ -156,7 +143,6 @@ class FormData(BaseModel):
     birth_order: str
     plural_birth: str
 
-        # One-hot / binary
     paternity: str
     marital_status: str
 
@@ -182,7 +168,6 @@ class FormData(BaseModel):
 def predict(data: FormData):
 
     features = {
-        # -------- Numeric --------
         "mager": to_int(data.mother_age),
         "fagecomb": to_int(data.father_age),
         "priorlive": to_int(data.prior_living_children),
@@ -196,7 +181,6 @@ def predict(data: FormData):
         "wtgain": to_float(data.weight_gain),
         "rf_cesarn": to_int(data.num_prev_csection),
 
-        # -------- Ordinal --------
         "meduc": MEDUC_MAP.get(data.mother_education, 9),
         "feduc": MEDUC_MAP.get(data.father_education, 9),
 
@@ -211,7 +195,6 @@ def predict(data: FormData):
         "dplural": DPLURAL_MAP.get(data.plural_birth, 1),
         "tbo_rec": map_birth_order(data.birth_order),
         "dmar": map_marital(data.marital_status),
-                # -------- Binary medical --------
         "rf_pdiab": yn(data.pre_diabetes),
         "rf_gdiab": yn(data.gest_diabetes),
         "rf_phype": yn(data.pre_hyper),
@@ -223,29 +206,14 @@ def predict(data: FormData):
         "rf_artec": yn(data.art),
         "rf_cesar": yn(data.prev_csection),
 
-        # -------- Infections --------
         "ip_gon": yn(data.gonorrhea),
         "ip_syph": yn(data.syphilis),
         "ip_chlam": yn(data.chlamydia),
         "ip_hepb": yn(data.hep_b),
         "ip_hepc": yn(data.hep_c),
 
-        # -------- Categorical (encoded in pipeline) --------
-        
         "mar_p": map_paternity(data.paternity),
     }
-    # Columns that go into one-hot
-    # onehot_cols = [
-    #     "ip_gon", "ip_chlam", "rf_ghype", "rf_cesar",
-    #     "rf_inftr", "rf_phype", "rf_artec", "ip_hepb",
-    #     "mar_p", "rf_ppterm", "ip_syph", "rf_pdiab",
-    #     "rf_ehype", "ip_hepc", "rf_gdiab", "rf_fedrg"
-    # ]
-
-    # # Cast them to strings before creating DataFrame
-    # for col in onehot_cols:
-    #     features[col] = str(features[col])
-
 
     df = pd.DataFrame([features])
     cluster_input = df[kmeans_features]
@@ -255,31 +223,27 @@ def predict(data: FormData):
     print("\n----- RAW USER INPUT -----")
     print(data)
 
-    print("\n----- DYPES -----")
-    print(df.dtypes)
-
     print("\n----- RISK CLUSTER -----")
     print(risk_cluster)
-    print("\n----- MODEL INPUT DATAFRAME (row-wise) -----")
-    for col in df.columns:
-        print(f"{col}: {df.iloc[0][col]}")
+    
+    # Make prediction
     prediction = model_pipeline.predict(df)[0]
-    print(prediction)
     proba = model_pipeline.predict_proba(df)[0][1]
-    print(proba)
 
+    print(f"\n----- PREDICTION -----")
+    print(f"Prediction: {prediction}")
+    print(f"Probability: {proba}")
+
+    # Generate comprehensive analysis using recommendation engine
+    analysis = rec_engine.analyze_patient(features, proba)
+
+    # Return enhanced response with recommendations
     return {
         "prediction": int(prediction),
         "risk": "High Risk of Preterm Birth" if prediction == 1 else "Low Risk of Preterm Birth",
-        "probability": float(proba)
+        "probability": float(proba),
+        "risk_cluster": risk_cluster,
+        
+        # NEW: Detailed analysis
+        "analysis": analysis
     }
-
-    # return {
-    #         "prediction": {
-    #             "label": prediction,
-    #             "risk_cluster": risk_cluster,
-    #             "risk": "High Risk of Preterm Birth" if prediction == 1 else "Low Risk of Preterm Birth",
-    #             "probability": proba
-    #         }
-    #     }
-
