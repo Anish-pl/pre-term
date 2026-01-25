@@ -5,8 +5,9 @@ const path = require("path");
 const multer = require("multer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 require("dotenv").config();
 
@@ -142,8 +143,52 @@ app.post("/api/predict", async (req, res) => {
     });
   }
 });
+app.post("/api/chat", async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message) return res.status(400).json({ error: "Message is required" });
+
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "llama3-13b", // ✅ updated to a currently supported model
+        messages: [
+          { role: "system", content: "You are a medical assistant specialized in pregnancy and preterm birth. Always give safe, cautious advice and recommend seeing a doctor." },
+          { role: "user", content: message }
+        ],
+        temperature: 0.4
+      })
+    });
+
+    const data = await response.json();
+
+    // Handle API errors safely
+    if (data.error) {
+      console.error("Invalid API response:", data);
+      return res.status(500).json({ reply: "⚠️ AI service returned an error: " + data.error.message });
+    }
+
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      console.error("Unexpected AI response:", data);
+      return res.status(500).json({ reply: "⚠️ AI service returned unexpected response." });
+    }
+
+    res.json({ reply: data.choices[0].message.content });
+
+  } catch (err) {
+    console.error("AI Error:", err);
+    res.status(500).json({ reply: "hello how can i help you" });
+  }
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log("GROQ KEY:", process.env.GROQ_API_KEY);
+
 });
