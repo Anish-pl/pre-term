@@ -1,104 +1,460 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Health Assistant - Preterm Birth Care</title>
-    <link rel="stylesheet" href="css/chat.css">
-    <!-- Socket.IO Client -->
-    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PreTermCare - Chatbot</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 90vh;
+      max-height: 800px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .api-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 12px;
+      border-radius: 15px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .btn-home {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .btn-home:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .quick-questions {
+      background: #f8f9fa;
+      padding: 15px 20px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .quick-questions h3 {
+      font-size: 14px;
+      color: #495057;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .question-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .question-chip {
+      background: white;
+      border: 1px solid #dee2e6;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #495057;
+    }
+
+    .question-chip:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: #f8f9fa;
+    }
+
+    .message {
+      display: flex;
+      margin-bottom: 16px;
+      animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message-content {
+      max-width: 70%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .message.bot .message-content {
+      background: white;
+      color: #212529;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .message.user .message-content {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message-content strong {
+      font-weight: 600;
+    }
+
+    .message-content ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    .message-content li {
+      margin-bottom: 4px;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 12px 16px;
+      background: white;
+      border-radius: 18px;
+      width: fit-content;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: #667eea;
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-10px); }
+    }
+
+    .input-area {
+      padding: 20px;
+      background: white;
+      border-top: 1px solid #e9ecef;
+      display: flex;
+      gap: 10px;
+    }
+
+    .message-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 25px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .message-input:focus {
+      border-color: #667eea;
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: scale(1);
+    }
+
+    .welcome-message {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6c757d;
+    }
+
+    .welcome-message h2 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .welcome-message p {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .error-message {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      color: #856404;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 13px;
+    }
+  </style>
 </head>
-
 <body>
-    <div class="chat-container">
-
-        <!-- Header -->
-        <div class="chat-header">
-            <div class="header-content">
-                <div class="back-button">
-                    <a href="result.html" class="btn-back">← Back to Results</a>
-                </div>
-                <div class="header-title">
-                    <h2>🤖 AI Health Assistant</h2>
-                    <p class="subtitle">Ask questions about your pregnancy and preterm birth risk</p>
-                </div>
-                <div class="header-actions">
-                    <button id="clearChat" class="btn-clear">Clear Chat</button>
-                </div>
-            </div>
-
-            <!-- Connection Status -->
-            <div id="connectionStatus" class="connection-status">
-                <span class="status-dot"></span>
-                <span id="statusText">Connecting...</span>
-            </div>
+  <div class="container">
+    <div class="header">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <h1>🤖 PreTermCare Assistant</h1>
+        <div class="api-status">
+          <div class="status-dot"></div>
+          <span>Groq AI</span>
         </div>
-
-        <!-- Chat Messages Area -->
-        <div class="chat-messages" id="chatMessages">
-            <!-- Welcome Message -->
-            <div class="message bot-message welcome-message">
-                <div class="message-avatar">🤖</div>
-                <div class="message-content">
-                    <div class="message-text">
-                        <p><strong>Hello! I'm your AI pregnancy health assistant.</strong></p>
-                        <p>I can help answer questions about:</p>
-                        <ul>
-                            <li>Your preterm birth risk assessment</li>
-                            <li>Healthy pregnancy lifestyle tips</li>
-                            <li>Understanding your risk factors</li>
-                            <li>Prenatal care recommendations</li>
-                        </ul>
-                        <p class="disclaimer">⚠️ <em>I provide educational information only. Always consult your
-                                healthcare provider for medical advice.</em></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Suggested Questions -->
-            <div class="suggested-questions">
-                <p class="suggestions-title">Suggested questions:</p>
-                <button class="suggestion-btn" data-question="Why is my risk score high/low?">Why is my risk score
-                    high/low?</button>
-                <button class="suggestion-btn" data-question="What foods should I eat during pregnancy?">What foods
-                    should I eat?</button>
-                <button class="suggestion-btn" data-question="Can I exercise during pregnancy?">Can I exercise during
-                    pregnancy?</button>
-                <button class="suggestion-btn" data-question="How can I reduce my risk?">How can I reduce my
-                    risk?</button>
-            </div>
-        </div>
-
-        <!-- Typing Indicator -->
-        <div class="typing-indicator" id="typingIndicator" style="display: none;">
-            <div class="message-avatar">🤖</div>
-            <div class="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-
-        <!-- Input Area -->
-        <div class="chat-input-container">
-            <div class="input-wrapper">
-                <textarea id="chatInput" class="chat-input" placeholder="Ask a question about your pregnancy..."
-                    rows="1"></textarea>
-                <button id="sendButton" class="btn-send" disabled>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-            </div>
-            <p class="input-hint">Press Enter to send, Shift+Enter for new line</p>
-        </div>
-
+      </div>
+      <a href="index.html" class="btn-home">← Home</a>
     </div>
 
-    <script src="js/chat.js"></script>
-</body>
+    <div class="quick-questions">
+      <h3>Quick Questions:</h3>
+      <div class="question-chips">
+        <span class="question-chip" data-question="What is preterm birth?">What is preterm birth?</span>
+        <span class="question-chip" data-question="What are the main risk factors?">Risk factors</span>
+        <span class="question-chip" data-question="How can I prevent preterm birth?">Prevention</span>
+        <span class="question-chip" data-question="What are the warning signs?">Symptoms</span>
+        <span class="question-chip" data-question="When should I see a doctor?">See doctor</span>
+        <span class="question-chip" data-question="Tell me about multiple pregnancies and preterm risk">Twins/Multiples</span>
+      </div>
+    </div>
 
+    <div class="chat-messages" id="chatMessages">
+      <div class="welcome-message">
+        <h2>👋 Welcome to PreTermCare Assistant</h2>
+        <p>I'm an AI-powered assistant specializing in preterm birth information. Powered by Groq AI for fast, accurate responses. Click a quick question above or type your own!</p>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input 
+        type="text" 
+        class="message-input" 
+        id="messageInput" 
+        placeholder="Ask me anything about preterm birth..."
+        autocomplete="off"
+      >
+      <button class="send-btn" id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatMessages = document.getElementById('chatMessages');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const questionChips = document.querySelectorAll('.question-chip');
+
+    // Manual Q&A for instant responses
+    const manualQA = {
+      "what is preterm birth": {
+        answer: "Preterm birth (premature birth) occurs when a baby is born before 37 weeks of pregnancy. A normal pregnancy lasts about 40 weeks.\n\n<strong>Categories:</strong>\n• Extremely preterm: Before 28 weeks\n• Very preterm: 28-32 weeks\n• Moderate to late preterm: 32-37 weeks\n\nBabies born preterm may face health challenges including breathing problems, feeding difficulties, temperature regulation issues, and developmental delays. The earlier a baby is born, the higher the risk of complications.",
+        keywords: ["what is preterm", "what is premature", "define preterm", "preterm birth meaning"]
+      },
+      "risk factors": {
+        answer: "<strong>Major Risk Factors for Preterm Birth:</strong>\n\n<strong>Medical History:</strong>\n• Previous preterm birth (highest risk factor)\n• Multiple pregnancies (twins, triplets)\n• Cervical or uterine problems\n• Chronic conditions (diabetes, hypertension)\n• Infections during pregnancy\n\n<strong>Lifestyle:</strong>\n• Smoking, alcohol, or drug use\n• Poor nutrition or being underweight/overweight\n• High stress levels\n• Late or no prenatal care\n\n<strong>Demographics:</strong>\n• Age under 17 or over 35\n• Short pregnancy spacing (<18 months)\n• African American ethnicity (higher rates)\n\nMany women with these factors have healthy full-term babies, and some preterm births occur without known risks.",
+        keywords: ["risk factors", "causes", "why preterm", "what causes"]
+      }
+    };
+
+    // Chat history for context
+    let chatHistory = [];
+
+    function findManualAnswer(question) {
+      const q = question.toLowerCase().trim();
+      
+      for (const [key, value] of Object.entries(manualQA)) {
+        if (q.includes(key)) return value.answer;
+        for (const keyword of value.keywords) {
+          if (q.includes(keyword)) return value.answer;
+        }
+      }
+      return null;
+    }
+
+    function addMessage(content, isUser = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+      contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+      
+      messageDiv.appendChild(contentDiv);
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTyping() {
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message bot';
+      typingDiv.id = 'typing';
+      typingDiv.innerHTML = `
+        <div class="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      `;
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTyping() {
+      const typing = document.getElementById('typing');
+      if (typing) typing.remove();
+    }
+
+    // Call backend chatbot endpoint
+    async function getAIResponse(question) {
+      try {
+        const response = await fetch('http://localhost:5000/api/chatbot', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: question,
+            history: chatHistory
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.response;
+
+      } catch (error) {
+        console.error('AI API Error:', error);
+        return "I apologize, but I'm having trouble connecting to the AI service. Please ensure the server is running on port 5000, or try one of the quick questions above.";
+      }
+    }
+
+    async function sendMessage() {
+      const question = messageInput.value.trim();
+      if (!question) return;
+
+      const welcome = document.querySelector('.welcome-message');
+      if (welcome) welcome.remove();
+
+      addMessage(question, true);
+      chatHistory.push({ role: 'user', content: question });
+      
+      messageInput.value = '';
+      sendBtn.disabled = true;
+      showTyping();
+
+      // Check manual Q&A first for instant response
+      const manualAnswer = findManualAnswer(question);
+      
+      if (manualAnswer) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        removeTyping();
+        addMessage(manualAnswer);
+        chatHistory.push({ role: 'assistant', content: manualAnswer });
+      } else {
+        // Use Groq AI for complex questions
+        const aiAnswer = await getAIResponse(question);
+        removeTyping();
+        addMessage(aiAnswer);
+        chatHistory.push({ role: 'assistant', content: aiAnswer });
+      }
+
+      sendBtn.disabled = false;
+      messageInput.focus();
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    questionChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        messageInput.value = chip.dataset.question;
+        sendMessage();
+      });
+    });
+  </script>
+</body>
 </html>
