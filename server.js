@@ -185,6 +185,142 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
+// ==================== CHATBOT ENDPOINT (GROQ API - WORKING) ====================
+app.post("/api/chatbot", async (req, res) => {
+  const { message, history } = req.body;
+
+  try {
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+
+    // Check if API key exists
+    if (!process.env.GROQ_API_KEY) {
+      console.error("❌ GROQ_API_KEY not found in environment variables");
+      return res.status(500).json({ 
+        error: "API key not configured. Please add GROQ_API_KEY to .env file" 
+      });
+    }
+
+    // Build messages array for Groq API
+    const messages = [
+      {
+        role: "system",
+        content: `You are a knowledgeable and compassionate medical assistant specializing in preterm birth and pregnancy health.
+
+Your responsibilities:
+- Provide accurate, evidence-based information about preterm birth, pregnancy, and maternal health
+- Explain risk factors, prevention strategies, and warning signs clearly
+- Offer emotional support and reassurance to expectant mothers
+- Answer ANY questions with expertise (not limited to pregnancy topics)
+- Keep responses concise (2-4 paragraphs maximum)
+- Use simple, easy-to-understand language
+- For medical advice, always recommend consulting healthcare providers
+
+Important: You provide general information, not a replacement for professional medical advice.`
+      }
+    ];
+
+    // Add conversation history for context
+    if (history && history.length > 0) {
+      const recentHistory = history.slice(-8); // Last 4 exchanges
+      recentHistory.forEach(msg => {
+        messages.push({
+          role: msg.role === 'user' ? 'user' : 'assistant',
+          content: msg.content
+        });
+      });
+    }
+
+    // Add current user message
+    messages.push({
+      role: "user",
+      content: message
+    });
+
+    console.log("🔄 Calling Groq API...");
+
+    // Call Groq API
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile", // Current working model// Fast and powerful model
+        messages: messages,
+        temperature: 0.7,
+        max_tokens: 800,
+        top_p: 0.9,
+        stream: false
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("❌ Groq API Error:", errorData);
+      
+      if (errorData.error?.message?.includes('Invalid API Key')) {
+        return res.status(401).json({ 
+          error: "Invalid API key. Please check your GROQ_API_KEY in .env file" 
+        });
+      }
+      
+      throw new Error(`Groq API error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+    }
+
+    const data = await response.json();
+
+    // Validate response
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      console.error("❌ Unexpected Groq response:", data);
+      throw new Error("Invalid response from Groq API");
+    }
+
+    let aiResponse = data.choices[0].message.content.trim();
+    
+    // Clean up the response
+    aiResponse = cleanAIResponse(aiResponse);
+
+    console.log("✅ Groq API response received successfully");
+    console.log(`📝 Response length: ${aiResponse.length} characters`);
+    console.log(`🤖 Model used: ${data.model}`);
+    
+    res.json({ response: aiResponse });
+
+  } catch (error) {
+    console.error("❌ Chatbot error:", error.message);
+    
+    res.status(500).json({ 
+      error: `AI service error: ${error.message}. Please check your API key and try again.`
+    });
+  }
+});
+
+// Helper function to clean AI responses
+function cleanAIResponse(text) {
+  // Remove excessive newlines
+  text = text.replace(/\n{3,}/g, '\n\n');
+  
+  // Remove markdown formatting for cleaner display
+  text = text.replace(/\*\*/g, '');
+  text = text.replace(/\*/g, '');
+  
+  // Trim whitespace
+  text = text.trim();
+  
+  // Add medical disclaimer if needed
+  const hasMedicalTerms = /pregnancy|birth|medical|health|symptoms|treatment|diagnosis|preterm|prenatal|trimester|labor|delivery|medication|disease/i.test(text);
+  const hasDisclaimer = /consult|doctor|healthcare provider|medical professional|see a doctor|speak with|contact your/i.test(text);
+  
+  if (hasMedicalTerms && !hasDisclaimer) {
+    text += '\n\nNote: Please consult your healthcare provider for personalized medical advice.';
+  }
+  
+  return text;
+}
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
