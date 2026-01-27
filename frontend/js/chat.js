@@ -1,45 +1,30 @@
-const chatMessages = document.getElementById("chatMessages");
-const messageInput = document.getElementById("messageInput");
-const sendBtn = document.getElementById("sendBtn");
-const questionChips = document.querySelectorAll(".question-chip");
+const chatMessages = document.getElementById('chatMessages');
+const messageInput = document.getElementById('messageInput');
+const sendBtn = document.getElementById('sendBtn');
+const questionChips = document.querySelectorAll('.question-chip');
 
-// Manual Q&A database (same as your existing one)
-const manualQA = {
-  "what is preterm birth": {
-    answer: "Preterm birth (also called premature birth) is when a baby is born before 37 weeks of pregnancy...",
-    keywords: ["preterm", "premature", "early birth", "what is"]
-  },
-  "what are the risk factors": {
-    answer: "Key risk factors for preterm birth include...",
-    keywords: ["risk", "factors", "causes"]
-  }
-  // ...add the rest of your manual QA here
-};
+// Conversation history for context
+let chatHistory = [];
 
-function findManualAnswer(question) {
-  const q = question.toLowerCase().trim();
-  for (const [key, value] of Object.entries(manualQA)) {
-    if (q.includes(key)) return value.answer;
-    for (const keyword of value.keywords) if (q.includes(keyword)) return value.answer;
-  }
-  return null;
-}
-
+// Add message to chat
 function addMessage(content, isUser = false) {
-  const messageDiv = document.createElement("div");
-  messageDiv.className = `message ${isUser ? "user" : "bot"}`;
-  const contentDiv = document.createElement("div");
-  contentDiv.className = "message-content";
-  contentDiv.innerHTML = content.replace(/\n/g, "<br>");
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+  
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'message-content';
+  contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+  
   messageDiv.appendChild(contentDiv);
   chatMessages.appendChild(messageDiv);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+// Show typing indicator
 function showTyping() {
-  const typingDiv = document.createElement("div");
-  typingDiv.className = "message bot";
-  typingDiv.id = "typing";
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'message bot';
+  typingDiv.id = 'typing';
   typingDiv.innerHTML = `
     <div class="typing-indicator">
       <div class="typing-dot"></div>
@@ -52,41 +37,72 @@ function showTyping() {
 }
 
 function removeTyping() {
-  const typing = document.getElementById("typing");
+  const typing = document.getElementById('typing');
   if (typing) typing.remove();
 }
 
+// Call backend API to get AI response from Groq
+async function getAIResponse(question) {
+  try {
+    const response = await fetch('http://localhost:5000/api/chatbot', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: question,
+        history: chatHistory
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // Check if we got an error response
+    if (data.error) {
+      throw new Error(data.error);
+    }
+    
+    return data.response;
+
+  } catch (error) {
+    console.error('❌ AI API Error:', error);
+    return `❌ Unable to connect to Groq AI service.\n\nPossible issues:\n• Server is not running on port 5000\n• GROQ_API_KEY is missing in .env file\n• No internet connection\n• API quota exceeded\n\nError details: ${error.message}\n\nPlease check the server console for more information.`;
+  }
+}
+
+// Handle sending message
 async function sendMessage() {
   const question = messageInput.value.trim();
   if (!question) return;
 
-  const welcome = document.querySelector(".welcome-message");
+  // Remove welcome message if exists
+  const welcome = document.querySelector('.welcome-message');
   if (welcome) welcome.remove();
 
+  // Add user message
   addMessage(question, true);
-  messageInput.value = "";
+  chatHistory.push({ role: 'user', content: question });
+  
+  messageInput.value = '';
   sendBtn.disabled = true;
+  
+  // Show typing indicator
   showTyping();
 
+  // ALWAYS use Groq API for ALL questions
   try {
-    const manualAnswer = findManualAnswer(question);
-    if (manualAnswer) {
-      removeTyping();
-      addMessage(manualAnswer);
-    } else {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: question })
-      });
-      const data = await res.json();
-      removeTyping();
-      addMessage(data.reply || "⚠️ AI service did not return a reply.");
-    }
-  } catch (err) {
+    const aiAnswer = await getAIResponse(question);
     removeTyping();
-    addMessage("⚠️ AI service is currently unavailable. Please try again later.");
-    console.error(err);
+    addMessage(aiAnswer);
+    chatHistory.push({ role: 'assistant', content: aiAnswer });
+  } catch (error) {
+    removeTyping();
+    addMessage(`❌ Error: ${error.message}`);
   }
 
   sendBtn.disabled = false;
@@ -94,14 +110,38 @@ async function sendMessage() {
 }
 
 // Event listeners
-sendBtn.addEventListener("click", sendMessage);
-messageInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendMessage();
+sendBtn.addEventListener('click', sendMessage);
+
+messageInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
 });
 
 questionChips.forEach(chip => {
-  chip.addEventListener("click", () => {
+  chip.addEventListener('click', () => {
     messageInput.value = chip.dataset.question;
     sendMessage();
   });
+});
+
+// Focus input on load
+messageInput.focus();
+
+// Optional: Add connection status indicator
+window.addEventListener('load', async () => {
+  try {
+    const response = await fetch('http://localhost:5000/api/chatbot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'test', history: [] })
+    });
+    
+    if (response.ok) {
+      console.log('✅ Connected to Groq AI successfully');
+    }
+  } catch (error) {
+    console.warn('⚠️ Cannot connect to server. Please ensure server is running.');
+  }
 });
