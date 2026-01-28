@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PreTermCare</title>
   <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/chatbot-widget.css">
   <script defer src="js/index.js"></script>
+  <script defer src="js/chatbot-widget.js"></script>
 </head>
 
 <body>
@@ -32,8 +34,7 @@
         <a href="login.html" id="loginBtn" class="button button-primary">Login to Proceed</a>
         <a href="form.html" id="startBtn" class="button button-primary">Start assisment</a>
         <a href="imageprocessing.html" id="imageBtn" class="button button-secondary">Medical Report </a>
-        <a href="chat.html" id="chatBtn" class="button button-tertiary">Chatbot</a>
-
+        
       </div>
     </section>
   </main>
@@ -58,6 +59,67 @@
   <footer class="footer">
     <p>Disclaimer: This tool is for informational purposes only, not medical advice.</p>
   </footer>
+
+  <!-- Floating Chatbot Widget -->
+  <div class="chatbot-container">
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-button" id="chatbotToggle">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3 .97 4.29L2 22l5.71-.97C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.68-.31-3.85-.86l-.27-.14-2.84.48.48-2.84-.14-.27A7.934 7.934 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
+        <circle cx="9" cy="12" r="1"/>
+        <circle cx="12" cy="12" r="1"/>
+        <circle cx="15" cy="12" r="1"/>
+      </svg>
+      <span class="chatbot-badge">1</span>
+    </button>
+
+    <!-- Chatbot Widget Window -->
+    <div class="chatbot-widget" id="chatbotWidget">
+      <!-- Header -->
+      <div class="chatbot-header">
+        <div class="chatbot-header-left">
+          <div class="chatbot-avatar">🤖</div>
+          <div class="chatbot-info">
+            <h3>PreTermCare Assistant</h3>
+            <p>Online • Powered by AI</p>
+          </div>
+        </div>
+        <button class="chatbot-close" id="chatbotClose">&times;</button>
+      </div>
+
+      <!-- Messages Area -->
+      <div class="chatbot-messages" id="chatbotMessages">
+        <div class="welcome-chat-message">
+          <h4>👋 Hello!</h4>
+          <p>I'm your PreTermCare assistant. Ask me anything about preterm birth, risk factors, or pregnancy health!</p>
+        </div>
+      </div>
+
+      <!-- Quick Reply Buttons -->
+      <div class="quick-replies">
+        <button class="quick-reply-btn" data-message="What is preterm birth?">What is preterm birth?</button>
+        <button class="quick-reply-btn" data-message="What are the risk factors?">Risk factors</button>
+        <button class="quick-reply-btn" data-message="How can I prevent preterm birth?">Prevention tips</button>
+        <button class="quick-reply-btn" data-message="What are the warning signs?">Warning signs</button>
+      </div>
+
+      <!-- Input Area -->
+      <div class="chatbot-input-area">
+        <input 
+          type="text" 
+          class="chatbot-input" 
+          id="chatbotInput" 
+          placeholder="Type your message..."
+          autocomplete="off"
+        >
+        <button class="chatbot-send-btn" id="chatbotSend">
+          <svg viewBox="0 0 24 24" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
 </body>
 

@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     startBtn.style.display = "inline-block"; 
     imageBtn.style.display = "inline-block";
-    chatBtn.style.display = "inline-block";
+   
 
     loginBtn.style.display = "none";
 
