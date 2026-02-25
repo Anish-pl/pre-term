@@ -1,79 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PreTermCare</title>
-  <link rel="stylesheet" href="css/index.css">
-  <link rel="stylesheet" href="css/chatbot-widget.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PreTermCare – Premature Birth Risk Assessment</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700&display=swap"
+    rel="stylesheet"
+  />
+    <link rel="stylesheet" href="css/index.css" />
   <script defer src="js/index.js"></script>
-  <script defer src="js/chatbot-widget.js"></script>
-</head>
 
-<body>
-
-  <header class="header">
-    <a href="index.html" style="text-decoration: none; color: inherit;">
-      <h1 class="logo" style="cursor: pointer;">PreTermCare</h1>
+  
+  <!-- ════════════ NAVBAR ════════════ -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="brand brand-vertical">
+      <img src="images/logo.png" alt="PreTermCare Logo" class="nav-logo-big" />
+      <span class="brand-sub">PreTermCare</span>
     </a>
 
-    <nav id="navMenu" class="nav">
-      <a href="login.html">Login</a>
-      <a href="signup.html">Sign Up</a>
+    <nav class="nav-links" id="navMenu">
+      <!-- Populated by JS based on auth state -->
     </nav>
   </header>
 
-  <main class="main">
-    <section class="hero">
-      <h2>Welcome to Birth Risk Predictor</h2>
-      <p>Advanced AI-powered assessment combining clinical data and lifestyle factors to provide accurate premature
-        birth risk predictions for expectant mothers.</p>
+  <!-- ════════════ HERO ════════════ -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="images/imagehero.png" alt="Medical professional with stethoscope" class="hero-img" />
+      <div class="hero-overlay"></div>
+      <div class="hero-glow"></div>
+    </div>
 
-      <div class="button-group">
-        <a href="login.html" id="loginBtn" class="button button-primary">Login to Proceed</a>
-        <a href="form.html" id="startBtn" class="button button-primary">Start assisment</a>
-        <a href="imageprocessing.html" id="imageBtn" class="button button-secondary">Medical Report </a>
-        
-      </div>
-    </section>
-  </main>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">AI-Powered Maternal Care</div>
 
-  <section class="stats-section">
-    <div class="stats">
-      <div class="stat-card">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Assessments Done</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">84%</div>
-        <div class="stat-label">Accuracy Rate</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">&lt;30s</div>
-        <div class="stat-label">Average Time</div>
+        <h1 class="hero-title">
+          Early Detection,<br />
+          <em>Better Outcomes.</em>
+        </h1>
+
+        <p class="hero-sub">
+          Clinical-grade risk assessment combining 20+ evidence-based indicators to predict premature birth risk — helping healthcare providers intervene earlier and care smarter.
+        </p>
+
+        <div class="hero-actions">
+          <!-- startBtn & imageBtn shown/hidden by JS -->
+          <a href="form.html" class="btn btn-primary" id="startBtn" style="display:none;">Start Assessment &rarr;</a>
+          <a href="imageprocessing.html"       class="btn btn-primary" id="imageBtn"  style="display:none;">Scan Document &rarr;</a>
+          <a href="login.html"      class="btn btn-primary" id="loginBtn">Get Started &rarr;</a>
+          <a href="#how-it-works"   class="btn btn-ghost">See How It Works</a>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- ════════════ HOW IT WORKS ════════════ -->
+  <section class="section" id="how-it-works">
+    <div class="section-inner">
+      <p class="section-tag">Process</p>
+      <h2 class="section-title">From data to diagnosis<br />in three steps</h2>
+      <p class="section-sub">
+        Designed for clinical environments — fast, structured, and evidence-based from the very first input.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">📋</div>
+          <h3>Enter Patient Data</h3>
+          <p>
+            Input clinical history, current vitals, lifestyle factors, and previous pregnancy outcomes through our structured assessment form — with OCR support for uploaded documents.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">🧠</div>
+          <h3>AI Risk Analysis</h3>
+          <p>
+            Our machine learning model processes over 20 validated clinical risk indicators simultaneously, cross-referencing against population datasets to generate a precise risk profile.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">📄</div>
+          <h3>Actionable Report</h3>
+          <p>
+            Receive a colour-coded risk score with full factor breakdown, tailored clinical recommendations, and a print-ready PDF — shareable instantly with your care team.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ FEATURES ════════════ -->
+  <section class="section section--alt" id="about">
+    <div class="section-inner">
+      <p class="section-tag">Capabilities</p>
+      <h2 class="section-title">Everything clinicians need,<br />nothing they don't</h2>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">⚕️</div>
+          <h3>Multi-Factor Assessment</h3>
+          <p>
+            Simultaneously analyses clinical history, pre-existing conditions, obstetric records, and lifestyle risk factors for a holistic, high-confidence evaluation.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🔍</div>
+          <h3>OCR Document Scan</h3>
+          <p>
+            Upload existing patient documents and our OCR engine auto-extracts key data points — eliminating manual transcription errors and saving critical time.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📥</div>
+          <h3>PDF Report Export</h3>
+          <p>
+            Generate polished, print-ready assessment reports in seconds. Structured for clinical records, patient handoffs, and insurance documentation.
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">💬</div>
+          <h3>Clinical AI Assistant</h3>
+          <p>
+            An integrated AI chatbot answers clinical questions, explains risk factors, and guides practitioners through the assessment in plain, actionable language.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ CTA BAND ════════════ -->
+  <section class="cta-band">
+    <div class="cta-band-inner">
+      <h2>Start improving maternal outcomes today.</h2>
+      <p>Join healthcare providers already using PreTermCare to detect risk earlier, act faster, and care better.</p>
+      <a href="signup.html"id ="createfreeacc" class="btn btn-primary">Create Free Account &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ════════════ FOOTER ════════════ -->
   <footer class="footer">
-    <p>Disclaimer: This tool is for informational purposes only, not medical advice.</p>
+    <div class="footer-inner">
+      <a href="index.html" class="brand brand-vertical footer-brand">
+        <img src="images/logo.png" alt="PreTermCare Logo" class="footer-logo" />
+        <span class="brand-sub footer-sub">PreTermCare</span>
+      </a>
+
+      <p class="disclaimer">
+        This tool is intended for informational and clinical decision-support purposes only. It does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional.
+      </p>
+      <p class="copyright">© 2025 PreTermCare. All rights reserved.</p>
+    </div>
   </footer>
 
-  <!-- Floating Chatbot Widget -->
+  <!-- ════════════ FLOATING CHATBOT WIDGET ════════════ -->
   <div class="chatbot-container">
-    <!-- Chatbot Toggle Button -->
-    <button class="chatbot-button" id="chatbotToggle">
+    <button class="chatbot-button" id="chatbotToggle" aria-label="Open chat assistant">
       <svg viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3 .97 4.29L2 22l5.71-.97C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.68-.31-3.85-.86l-.27-.14-2.84.48.48-2.84-.14-.27A7.934 7.934 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
         <circle cx="9" cy="12" r="1"/>
         <circle cx="12" cy="12" r="1"/>
         <circle cx="15" cy="12" r="1"/>
       </svg>
-      <span class="chatbot-badge">1</span>
+      <span class="chatbot-badge" id="chatBadge">1</span>
     </button>
 
-    <!-- Chatbot Widget Window -->
     <div class="chatbot-widget" id="chatbotWidget">
       <!-- Header -->
       <div class="chatbot-header">
@@ -84,10 +184,10 @@
             <p>Online • Powered by AI</p>
           </div>
         </div>
-        <button class="chatbot-close" id="chatbotClose">&times;</button>
+        <button class="chatbot-close" id="chatbotClose" aria-label="Close chat">&times;</button>
       </div>
 
-      <!-- Messages Area -->
+      <!-- Messages -->
       <div class="chatbot-messages" id="chatbotMessages">
         <div class="welcome-chat-message">
           <h4>👋 Hello!</h4>
@@ -95,24 +195,24 @@
         </div>
       </div>
 
-      <!-- Quick Reply Buttons -->
-      <div class="quick-replies">
+      <!-- Quick Replies -->
+      <div class="quick-replies" id="quickReplies">
         <button class="quick-reply-btn" data-message="What is preterm birth?">What is preterm birth?</button>
         <button class="quick-reply-btn" data-message="What are the risk factors?">Risk factors</button>
         <button class="quick-reply-btn" data-message="How can I prevent preterm birth?">Prevention tips</button>
         <button class="quick-reply-btn" data-message="What are the warning signs?">Warning signs</button>
       </div>
 
-      <!-- Input Area -->
+      <!-- Input -->
       <div class="chatbot-input-area">
-        <input 
-          type="text" 
-          class="chatbot-input" 
-          id="chatbotInput" 
+        <input
+          type="text"
+          class="chatbot-input"
+          id="chatbotInput"
           placeholder="Type your message..."
           autocomplete="off"
-        >
-        <button class="chatbot-send-btn" id="chatbotSend">
+        />
+        <button class="chatbot-send-btn" id="chatbotSend" aria-label="Send message">
           <svg viewBox="0 0 24 24" stroke-width="2">
             <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
           </svg>
@@ -122,5 +222,4 @@
   </div>
 
 </body>
-
 </html>

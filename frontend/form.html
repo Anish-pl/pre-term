@@ -1,357 +1,551 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
-  <title>Preterm Birth Risk — Multi Step Form</title>
-  <link rel="stylesheet" href="css/form.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Risk Assessment – PreTermCare</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/form.css" />
   <script defer src="js/form.js"></script>
-
-
-
 </head>
 
 <body>
 
-  <div class="container">
+  <!-- ════════════ NAVBAR ════════════ -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="brand brand-vertical">
+      <img src="images/logo.png" alt="PreTermCare Logo" class="nav-logo-big" />
+      <span class="brand-sub">PreTermCare</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <span class="nav-divider"></span>
+      <a href="index.html" class="nav-btn nav-btn--ghost">← Back</a>
+    </nav>
+  </header>
 
-    <a href="index.html" class="btn-home">Home</a>
+  <!-- ════════════ MAIN ════════════ -->
+  <main class="form-page">
 
-    <h2>Preterm Birth Risk Prediction</h2>
+    <!-- Sidebar -->
+    <aside class="form-sidebar">
+      <div class="sidebar-inner">
+        <div class="sidebar-badge">Risk Assessment</div>
+        <h2 class="sidebar-title">Preterm Birth<br /><em>Risk Prediction</em></h2>
+        <p class="sidebar-desc">Complete all three sections for a comprehensive AI-powered risk analysis based on 20+ clinical indicators.</p>
 
-    <div class="progressbar">
-      <div class="progress">
-        <div class="bar" id="progressBar"></div>
+        <!-- Step indicators -->
+        <div class="sidebar-steps">
+          <div class="sidebar-step active" id="sideStep0">
+            <div class="ss-dot"><span>1</span></div>
+            <div class="ss-info">
+              <div class="ss-label">Step 1</div>
+              <div class="ss-name">Parental Information</div>
+            </div>
+          </div>
+          <div class="sidebar-step-line"></div>
+          <div class="sidebar-step" id="sideStep1">
+            <div class="ss-dot"><span>2</span></div>
+            <div class="ss-info">
+              <div class="ss-label">Step 2</div>
+              <div class="ss-name">Reproductive & Prenatal</div>
+            </div>
+          </div>
+          <div class="sidebar-step-line"></div>
+          <div class="sidebar-step" id="sideStep2">
+            <div class="ss-dot"><span>3</span></div>
+            <div class="ss-info">
+              <div class="ss-label">Step 3</div>
+              <div class="ss-name">Lifestyle & Medical</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-note">
+          <span class="note-icon">🔒</span>
+          <span>Your data is processed securely and never shared.</span>
+        </div>
       </div>
-      <div class="step active">1</div>
-      <div class="step">2</div>
-      <div class="step">3</div>
+    </aside>
+
+    <!-- Form Panel -->
+    <div class="form-panel">
+
+      <!-- Progress bar (top of panel) -->
+      <div class="progress-header">
+        <div class="progress-track">
+          <div class="progress-fill" id="progressBar"></div>
+        </div>
+        <span class="progress-label" id="progressLabel">Step 1 of 3</span>
+      </div>
+
+      <form id="multiForm" novalidate>
+
+        <!-- ══ STEP 1: Parental Information ══ -->
+        <div class="form-step active" data-step="0">
+          <div class="step-header">
+            <div class="step-tag">Step 1 of 3</div>
+            <h3 class="step-title">Parental Information</h3>
+            <p class="step-desc">Basic demographic details about the parents.</p>
+          </div>
+
+          <div class="form-grid">
+            <div class="field-group full">
+              <label class="field-label" for="mother_age">Mother's Age <span class="req">*</span></label>
+              <input class="field-input" id="mother_age" name="mother_age" type="number" required min="10" max="60" placeholder="e.g. 28" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="paternity">Paternity <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="paternity" name="paternity" required>
+                  <option value="">Choose…</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                  <option>Unknown</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="marital_status">Marital Status <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="marital_status" name="marital_status" required>
+                  <option value="">Choose…</option>
+                  <option>Married</option>
+                  <option>Unmarried</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group full">
+              <label class="field-label" for="mother_education">Mother's Education <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="mother_education" name="mother_education" required>
+                  <option value="">Choose…</option>
+                  <option>8th grade or less</option>
+                  <option>9th-12th grade, no diploma</option>
+                  <option>High school graduate / GED</option>
+                  <option>Some college credit</option>
+                  <option>Associate degree</option>
+                  <option>Bachelor's degree</option>
+                  <option>Master's degree</option>
+                  <option>Doctorate / Professional degree</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="father_age">Father's Age <span class="opt">(optional)</span></label>
+              <input class="field-input" id="father_age" name="father_age" type="number" min="10" max="80" placeholder="optional" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="father_education">Father's Education <span class="opt">(optional)</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="father_education" name="father_education">
+                  <option value="">Choose…</option>
+                  <option>8th grade or less</option>
+                  <option>9th-12th grade, no diploma</option>
+                  <option>High school graduate / GED</option>
+                  <option>Some college credit</option>
+                  <option>Associate degree</option>
+                  <option>Bachelor's degree</option>
+                  <option>Master's degree</option>
+                  <option>Doctorate / Professional degree</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-buttons">
+            <div></div>
+            <button type="button" class="btn-step btn-step--next" data-action="next">Next Step <span>→</span></button>
+          </div>
+        </div>
+
+        <!-- ══ STEP 2: Reproductive & Prenatal ══ -->
+        <div class="form-step" data-step="1">
+          <div class="step-header">
+            <div class="step-tag">Step 2 of 3</div>
+            <h3 class="step-title">Reproductive & Prenatal History</h3>
+            <p class="step-desc">Previous pregnancy outcomes and prenatal care details.</p>
+          </div>
+
+          <div class="form-grid">
+            <div class="field-group full">
+              <label class="field-label" for="prior_living_children">Prior Living Children <span class="req">*</span></label>
+              <input class="field-input" id="prior_living_children" name="prior_living_children" type="number" required min="0" value="0" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="prior_deceased_children">Prior Deceased Children <span class="opt">(optional)</span></label>
+              <input class="field-input" id="prior_deceased_children" name="prior_deceased_children" type="number" min="0" placeholder="optional" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="prior_terminations">Previous Terminations <span class="opt">(optional)</span></label>
+              <input class="field-input" id="prior_terminations" name="prior_terminations" type="number" min="0" />
+            </div>
+
+            <div class="field-group full">
+              <label class="field-label" for="birth_order">Total Birth Order <span class="req">*</span></label>
+              <input class="field-input" id="birth_order" name="birth_order" type="number" required min="1" placeholder="total births including current" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="months_last_live_birth">Months Since Last Live Birth <span class="opt">(optional)</span></label>
+              <input class="field-input" id="months_last_live_birth" name="months_last_live_birth" type="number" min="0" placeholder="0 if first birth" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="months_last_other_pregnancy">Months Since Last Other Pregnancy <span class="opt">(optional)</span></label>
+              <input class="field-input" id="months_last_other_pregnancy" name="months_last_other_pregnancy" type="number" min="0" placeholder="optional" />
+            </div>
+
+            <div class="field-group full">
+              <label class="field-label" for="months_last_pregnancy">Months Since Last Pregnancy <span class="opt">(optional)</span></label>
+              <input class="field-input" id="months_last_pregnancy" name="months_last_pregnancy" type="number" min="0" placeholder="optional" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="prenatal_month">Prenatal Care Began <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="prenatal_month" name="prenatal_month" required>
+                  <option value="">Choose…</option>
+                  <option>1-3</option>
+                  <option>4-6</option>
+                  <option>7-end</option>
+                  <option>No care</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="prenatal_visits">Number of Prenatal Visits <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="prenatal_visits" name="prenatal_visits" required>
+                  <option value="">Choose…</option>
+                  <option>0 visits</option>
+                  <option>1-2 visits</option>
+                  <option>3-4 visits</option>
+                  <option>5-6 visits</option>
+                  <option>7-8 visits</option>
+                  <option>9-10 visits</option>
+                  <option>11-12 visits</option>
+                  <option>13-14 visits</option>
+                  <option>15-16 visits</option>
+                  <option>17-18 visits</option>
+                  <option>19 or more visits</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-buttons">
+            <button type="button" class="btn-step btn-step--prev" data-action="prev"><span>←</span> Previous</button>
+            <button type="button" class="btn-step btn-step--next" data-action="next">Next Step <span>→</span></button>
+          </div>
+        </div>
+
+        <!-- ══ STEP 3: Lifestyle, Medical & Infection ══ -->
+        <div class="form-step" data-step="2">
+          <div class="step-header">
+            <div class="step-tag">Step 3 of 3</div>
+            <h3 class="step-title">Lifestyle, Medical & Infection Risk Factors</h3>
+            <p class="step-desc">Health history and lifestyle factors relevant to preterm birth risk.</p>
+          </div>
+
+          <div class="form-grid">
+
+            <!-- Smoking section -->
+            <div class="field-group full">
+              <div class="section-label">🚬 Smoking History</div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="cig_before">Cigarettes Before Pregnancy <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="cig_before" name="cig_before" required>
+                  <option value="">Choose…</option>
+                  <option>0</option><option>1-5</option><option>6-10</option>
+                  <option>11-20</option><option>21-40</option><option>41+</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="cig_t1">Cigarettes 1st Trimester <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="cig_t1" name="cig_t1" required>
+                  <option value="">Choose…</option>
+                  <option>0</option><option>1-5</option><option>6-10</option>
+                  <option>11-20</option><option>21-40</option><option>41+</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="cig_t2">Cigarettes 2nd Trimester <span class="opt">(optional)</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="cig_t2" name="cig_t2">
+                  <option value="">Optional…</option>
+                  <option>0</option><option>1-5</option><option>6-10</option>
+                  <option>11-20</option><option>21-40</option><option>41+</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="cig_t3">Cigarettes 3rd Trimester <span class="opt">(optional)</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="cig_t3" name="cig_t3">
+                  <option value="">Optional…</option>
+                  <option>0</option><option>1-5</option><option>6-10</option>
+                  <option>11-20</option><option>21-40</option><option>41+</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Physical section -->
+            <div class="field-group full">
+              <div class="section-label">⚖️ Physical Measurements</div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="height">Mother's Height (inches) <span class="req">*</span></label>
+              <input class="field-input" id="height" name="height" type="number" required min="40" max="84" placeholder="e.g. 64" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="bmi">BMI <span class="opt">(optional)</span></label>
+              <input class="field-input" id="bmi" name="bmi" type="number" step="0.1" placeholder="auto or optional" />
+            </div>
+
+            <div class="field-group full">
+              <label class="field-label" for="weight_gain">Weight Gain (lbs) <span class="req">*</span></label>
+              <input class="field-input" id="weight_gain" name="weight_gain" type="number" required min="0" placeholder="e.g. 25" />
+            </div>
+
+            <!-- Medical conditions -->
+            <div class="field-group full">
+              <div class="section-label">🏥 Medical Conditions</div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="pre_diabetes">Pre-pregnancy Diabetes <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="pre_diabetes" name="pre_diabetes" required>
+                  <option value="">Choose…</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="gest_diabetes">Gestational Diabetes <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="gest_diabetes" name="gest_diabetes" required>
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="pre_hyper">Pre-pregnancy Hypertension <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="pre_hyper" name="pre_hyper" required>
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="gest_hyper">Gestational Hypertension <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="gest_hyper" name="gest_hyper" required>
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="eclampsia">Eclampsia <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="eclampsia" name="eclampsia" required>
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="prev_preterm">Previous Preterm</label>
+              <div class="select-wrap">
+                <select class="field-select" id="prev_preterm" name="prev_preterm">
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Reproductive technology -->
+            <div class="field-group full">
+              <div class="section-label">🔬 Reproductive Technology</div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="infertility_treat">Infertility Treatment Used</label>
+              <div class="select-wrap">
+                <select class="field-select" id="infertility_treat" name="infertility_treat">
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="fertility_drugs">Fertility Enhancing Drugs</label>
+              <div class="select-wrap">
+                <select class="field-select" id="fertility_drugs" name="fertility_drugs">
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option><option>Not Applicable</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group full">
+              <label class="field-label" for="art">Assisted Reproductive Technology</label>
+              <div class="select-wrap">
+                <select class="field-select" id="art" name="art">
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option><option>Not Applicable</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Cesarean -->
+            <div class="field-group full">
+              <div class="section-label">🏨 Cesarean History</div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="prev_csection">Previous Cesarean <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="prev_csection" name="prev_csection" required>
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="num_prev_csection">Number of Previous Cesareans</label>
+              <input class="field-input" id="num_prev_csection" name="num_prev_csection" type="number" min="0" placeholder="If previous C-section = Yes" />
+            </div>
+
+            <!-- Infections -->
+            <div class="field-group full">
+              <div class="section-label">🦠 Infection History</div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="gonorrhea">Gonorrhea</label>
+              <div class="select-wrap">
+                <select class="field-select" id="gonorrhea" name="gonorrhea">
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="syphilis">Syphilis</label>
+              <div class="select-wrap">
+                <select class="field-select" id="syphilis" name="syphilis">
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="chlamydia">Chlamydia</label>
+              <div class="select-wrap">
+                <select class="field-select" id="chlamydia" name="chlamydia">
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="hep_b">Hepatitis B</label>
+              <div class="select-wrap">
+                <select class="field-select" id="hep_b" name="hep_b">
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="hep_c">Hepatitis C</label>
+              <div class="select-wrap">
+                <select class="field-select" id="hep_c" name="hep_c">
+                  <option value="">Unknown</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="plural_birth">Plural Birth <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select class="field-select" id="plural_birth" name="plural_birth" required>
+                  <option value="">Choose…</option>
+                  <option>Yes</option><option>No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading overlay -->
+          <div class="loading-overlay" id="loading">
+            <div class="loading-inner">
+              <div class="spinner"></div>
+              <p class="loading-text">Analysing risk profile<span id="dots">…</span></p>
+              <p class="loading-sub">Processing 20+ clinical indicators</p>
+            </div>
+          </div>
+
+          <div class="step-buttons">
+            <button type="button" class="btn-step btn-step--prev" data-action="prev"><span>←</span> Previous</button>
+            <button type="submit" class="btn-step btn-step--submit">Generate Report <span>→</span></button>
+          </div>
+        </div>
+
+      </form>
     </div>
+  </main>
 
-    <form id="multiForm" novalidate>
-
-      <div class="form-step active" data-step="0">
-        <h3>Parental Information</h3>
-
-        <label for="mother_age">Mother's Age *</label>
-        <input id="mother_age" name="mother_age" type="number" required min="10" max="60" placeholder="e.g. 28">
-
-        <div class="row">
- 
-          <div class="col">
-            <label for="paternity">Paternity *</label>
-            <select id="paternity" name="paternity" required>
-              <option value="">Choose…</option>
-              <option>Yes</option>
-              <option>No</option>
-              <option>Unknown</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <label for="marital_status">Marital Status *</label>
-            <select id="marital_status" name="marital_status" required>
-              <option value="">Choose…</option>
-              <option>Married</option>
-              <option>Unmarried</option>
-            </select>
-          </div>
-          <div class="col">
-            <label for="mother_education">Mother's Education *</label>
-            <select id="mother_education" name="mother_education" required>
-              <option value="">Choose…</option>
-              <option>8th grade or less</option>
-              <option>9th-12th grade, no diploma</option>
-              <option>High school graduate / GED</option>
-              <option>Some college credit</option>
-              <option>Associate degree</option>
-              <option>Bachelor's degree</option>
-              <option>Master's degree</option>
-              <option>Doctorate / Professional degree</option>
-            </select>
-          </div>
-        </div>
-
-        <label for="father_age">Father's Age (optional)</label>
-        <input id="father_age" name="father_age" type="number" min="10" max="80" placeholder="optional">
-
-
-        <label for="father_education">Father's Education (optional)</label>
-        <select id="father_education" name="father_education">
-          <option value="">Choose…</option>
-          <option>8th grade or less</option>
-          <option>9th-12th grade, no diploma</option>
-          <option>High school graduate / GED</option>
-          <option>Some college credit</option>
-          <option>Associate degree</option>
-          <option>Bachelor's degree</option>
-          <option>Master's degree</option>
-          <option>Doctorate / Professional degree</option>
-        </select>
-
-
-        <div class="buttons">
-          <div></div>
-          <button type="button" class="btn-next" data-action="next">Next →</button>
-        </div>
-      </div>
-
-      <div class="form-step" data-step="1">
-        <h3>Reproductive & Prenatal History</h3>
-
-        <label for="prior_living_children">Prior Living Children *</label>
-        <input id="prior_living_children" name="prior_living_children" type="number" required min="0" value="0">
-
-        <div class="row">
-          <div class="col">
-            <label for="prior_deceased_children">Prior Deceased Children</label>
-            <input id="prior_deceased_children" name="prior_deceased_children" type="number" min="0"
-              placeholder="optional">
-          </div>
-          <div class="col">
-            <label for="terminations">Previous Pregnancy Terminations</label>
-            <input id="prior_terminations" name="prior_terminations" type="number" min="0">
-
-          </div>
-        </div>
-
-        <label for="birth_order">Total Birth Order *</label>
-        <input id="birth_order" name="birth_order" type="number" required min="1"
-          placeholder="total births including current">
-        <label for="months_last_live_birth">Months Since Last Live Birth</label>
-        <input id="months_last_live_birth" name="months_last_live_birth" type="number" min="0"
-          placeholder="Enter 0 if first birth" title="Enter 0 if this is the first birth" />
-
-        <label for="months_last_other_pregnancy">Months Since Last Other Pregnancy (optional)</label>
-        <input id="months_last_other_pregnancy" name="months_last_other_pregnancy" type="number" min="0"
-          placeholder="optional" />
-
-        <label for="months_last_pregnancy">Months Since Last Pregnancy (optional)</label>
-        <input id="months_last_pregnancy" name="months_last_pregnancy" type="number" min="0" placeholder="optional" />
-
-
-        <label for="prenatal_month">Month Prenatal Care Began *</label>
-        <select id="prenatal_month" name="prenatal_month" required>
-          <option value="">Choose…</option>
-          <option>1-3</option>
-          <option>4-6</option>
-          <option>7-end</option>
-          <option>No care</option>
-        </select>
-
-        <label for="prenatal_visits">Number of Prenatal Visits *</label>
-        <select id="prenatal_visits" name="prenatal_visits" required>
-          <option value="">Choose…</option>
-          <option>0 visits</option>
-          <option>1-2 visits</option>
-          <option>3-4 visits</option>
-          <option>5-6 visits</option>
-          <option>7-8 visits</option>
-          <option>9-10 visits</option>
-          <option>11-12 visits</option>
-          <option>13-14 visits</option>
-          <option>15-16 visits</option>
-          <option>17-18 visits</option>
-          <option>19 or more visits</option>
-        </select>
-
-        <div class="buttons">
-          <button type="button" class="btn-prev" data-action="prev">← Previous</button>
-          <button type="button" class="btn-next" data-action="next">Next →</button>
-        </div>
-      </div>
-
-      <div class="form-step" data-step="2">
-        <h3>Lifestyle, Medical, and Infection Risk Factors</h3>
-
-        <label for="cig_before">Cigarettes Before Pregnancy *</label>
-        <select id="cig_before" name="cig_before" required>
-          <option value="">Choose…</option>
-          <option>0</option>
-          <option>1-5</option>
-          <option>6-10</option>
-          <option>11-20</option>
-          <option>21-40</option>
-          <option>41+</option>
-        </select>
-          <label for="cig_t2">Cigarettes 1st Trimester</label>
-        <select id="cig_t1" name="cig_t1" required>
-          <option value="">Choose…</option>
-          <option>0</option>
-          <option>1-5</option>
-          <option>6-10</option>
-          <option>11-20</option>
-          <option>21-40</option>
-          <option>41+</option>
-        </select>
-
-        <label for="cig_t2">Cigarettes 2nd Trimester</label>
-        <select id="cig_t2" name="cig_t2">
-          <option value="">Optional…</option>
-          <option>0</option>
-          <option>1-5</option>
-          <option>6-10</option>
-          <option>11-20</option>
-          <option>21-40</option>
-          <option>41+</option>
-        </select>
-
-        <label for="cig_t3">Cigarettes 3rd Trimester</label>
-        <select id="cig_t3" name="cig_t3">
-          <option value="">Optional…</option>
-          <option>0</option>
-          <option>1-5</option>
-          <option>6-10</option>
-          <option>11-20</option>
-          <option>21-40</option>
-          <option>41+</option>
-        </select>
-
-        <label for="height">Mother's Height (inches) *</label>
-        <input id="height" name="height" type="number" required min="40" max="84" placeholder="e.g., 64">
-
-        <label for="bmi">Body Mass Index (BMI)</label>
-        <input id="bmi" name="bmi" type="number" step="0.1" placeholder="auto or optional">
-
-        <label for="weight_gain">Weight Gain (lbs) *</label>
-        <input id="weight_gain" name="weight_gain" type="number" required min="0">
-
-        <label for="pre_diabetes">Pre-pregnancy Diabetes *</label>
-        <select id="pre_diabetes" name="pre_diabetes" required>
-          <option value="">Choose…</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="gest_diabetes">Gestational Diabetes *</label>
-        <select id="gest_diabetes" name="gest_diabetes" required>
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="pre_hyper">Pre-pregnancy Hypertension *</label>
-        <select id="pre_hyper" name="pre_hyper" required>
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="gest_hyper">Gestational Hypertension *</label>
-        <select id="gest_hyper" name="gest_hyper" required>
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="eclampsia">Eclampsia *</label>
-        <select id="eclampsia" name="eclampsia" required>
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="eclampsia">Previous Preterm</label>
-        <select id="prev_preterm" name="prev_preterm" required>
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="infertility_treat">Infertility Treatment Used</label>
-        <select id="infertility_treat" name="infertility_treat">
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="fertility_drugs">Fertility Enhancing Drugs</label>
-        <select id="fertility_drugs" name="fertility_drugs">
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-          <option>Not Applicable</option>
-        </select>
-
-        <label for="art">Assisted Reproductive Technology</label>
-        <select id="art" name="art">
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-          <option>Not Applicable</option>
-        </select>
-
-        <label for="prev_csection">Previous Cesarean *</label>
-        <select id="prev_csection" name="prev_csection" required>
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="num_prev_csection">Number of Previous Cesareans</label>
-        <input id="num_prev_csection" name="num_prev_csection" type="number" min="0"
-          placeholder="Only if Previous Cesarean = Yes">
-
-        <label for="gonorrhea">Gonorrhea</label>
-        <select id="gonorrhea" name="gonorrhea">
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="syphilis">Syphilis</label>
-        <select id="syphilis" name="syphilis">
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="chlamydia">Chlamydia</label>
-        <select id="chlamydia" name="chlamydia">
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="hep_b">Hepatitis B</label>
-        <select id="hep_b" name="hep_b">
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="hep_c">Hepatitis C</label>
-        <select id="hep_c" name="hep_c">
-          <option value="">Unknown</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label for="plural_birth">Plural Birth *</label>
-        <select id="plural_birth" name="plural_birth" required>
-          <option value="">Choose…</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <div id="loading" style="display:none; text-align:center; padding:20px;">
-         <div class="spinner"></div>
-         <p id="loading-text">Predicting your risk<span id="dots">...</span></p>
-        </div>
-
-         <div class="buttons">
-          <button type="button" class="btn-prev" data-action="prev">← Previous</button>
-          <button type="submit" class="btn-submit">Submit</button>
-        </div>
-      </div>
-
-
-    </form>
-
-  </div>
-  
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <img src="images/logo.png" alt="PreTermCare Logo" class="footer-logo" />
+      <span class="brand-sub" style="color:#fff;opacity:.9;font-size:.72rem;">PreTermCare</span>
+      <p class="disclaimer">For clinical decision-support only. Not a substitute for professional medical advice.</p>
+      <p class="copyright">© 2025 PreTermCare. All rights reserved.</p>
+    </div>
+  </footer>
 
 </body>
 </html>

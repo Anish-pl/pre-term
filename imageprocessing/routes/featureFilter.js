@@ -1,4 +1,4 @@
-export function extractModelFeatures(rawText) {
+function extractModelFeatures(rawText) {
   const features = {
     mother_age: null,
     height: null,

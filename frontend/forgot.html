@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forgot Password – PreTermCare</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/signup.css" />
+</head>
+
+<body>
+
+  <!-- ════════════ NAVBAR ════════════ -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="brand brand-vertical">
+      <img src="images/logo.png" alt="PreTermCare Logo" class="nav-logo-big" />
+      <span class="brand-sub">PreTermCare</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <span class="nav-divider"></span>
+      <a href="login.html"  class="nav-btn nav-btn--ghost">Login</a>
+      <a href="signup.html" class="nav-btn nav-btn--solid">Sign Up</a>
+    </nav>
+  </header>
+
+  <!-- ════════════ FORGOT PASSWORD PAGE ════════════ -->
+  <div class="auth-page">
+
+    <!-- Left visual panel -->
+    <div class="auth-visual">
+      <div class="visual-circle visual-circle--1"></div>
+      <div class="visual-circle visual-circle--2"></div>
+      <div class="visual-circle visual-circle--3"></div>
+
+      <div class="visual-content">
+        <div class="visual-badge">Account Recovery</div>
+
+        <h2 class="visual-title">
+          Regain<br />
+          <em>secure access.</em>
+        </h2>
+
+        <p class="visual-desc">
+          Enter the email address linked to your PreTermCare account and we'll send you a link to reset your password safely.
+        </p>
+
+        <ul class="visual-checklist">
+          <li><span class="check-icon">✓</span> Secure reset link via email</li>
+          <li><span class="check-icon">✓</span> Link expires in 15 minutes</li>
+          <li><span class="check-icon">✓</span> Your data stays protected</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="auth-form-panel">
+
+      <a href="login.html" class="back-link">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Login
+      </a>
+
+      <!-- Step 1: Enter email -->
+      <div id="stepEmail">
+        <div class="form-header">
+          <div class="form-eyebrow">Password Reset</div>
+          <h1 class="form-title">Forgot your password?</h1>
+          <p class="form-subtitle">No worries — enter your email and we'll send a reset link.</p>
+        </div>
+
+        <div id="formMessage" class="form-message"></div>
+
+        <form id="forgotForm" autocomplete="on">
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input
+              class="form-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@clinic.com"
+              autocomplete="email"
+              required
+            />
+            <p class="form-hint">Enter the email you registered with.</p>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">Send Reset Link →</button>
+        </form>
+      </div>
+
+      <!-- Step 2: Success state (shown after submit) -->
+      <div id="stepSuccess" style="display:none;">
+        <div class="success-state">
+          <div class="success-icon">📬</div>
+          <h2 class="success-title">Check your inbox</h2>
+          <p class="success-desc">
+            We've sent a password reset link to <strong id="sentEmail"></strong>.
+            The link will expire in 15 minutes.
+          </p>
+          <p class="success-sub">Didn't receive it? Check your spam folder or
+            <button class="resend-btn" id="resendBtn">resend the email</button>.
+          </p>
+          <a href="login.html" class="btn-submit" style="display:inline-block;margin-top:1.5rem;text-align:center;text-decoration:none;">
+            Back to Login
+          </a>
+        </div>
+      </div>
+
+      <p class="form-footer-text" id="signupHint">
+        Don't have an account? <a href="signup.html">Create one free</a>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <img src="images/logo.png" alt="PreTermCare Logo" class="footer-logo" />
+      <span class="brand-sub" style="color:#fff;opacity:.9;font-size:.72rem;">PreTermCare</span>
+      <p class="disclaimer">This tool is for clinical decision-support only. Always consult a qualified healthcare professional.</p>
+      <p class="copyright">© 2025 PreTermCare. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/forgot.js"></script>
+</body>
+</html>
