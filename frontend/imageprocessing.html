@@ -1,56 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Upload Medical Report</title>
-  <link rel="stylesheet" href="css/index.css">
-  <link rel="stylesheet" href="css/imageprocess.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Medical Report – PreTermCare</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/imageprocess.css" />
 </head>
 
 <body>
 
-  <header class="header">
-    <a href="index.html" style="text-decoration: none; color: inherit;">
-      <h1 class="logo" style="cursor: pointer;">PreTermCare</h1>
+  <!-- ════════════ NAVBAR ════════════ -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="brand brand-vertical">
+      <img src="images/logo.png" alt="PreTermCare Logo" class="nav-logo-big" />
+      <span class="brand-sub">PreTermCare</span>
     </a>
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <span class="nav-divider"></span>
+      <a href="index.html" class="nav-btn nav-btn--ghost">← Back</a>
+    </nav>
   </header>
 
-  <main class="main">
-    <section class="upload-card">
+  <!-- ════════════ MAIN ════════════ -->
+  <main class="upload-page">
 
-      <div class="upload-icon">📄</div>
+    <!-- Left: Visual panel -->
+    <div class="upload-visual">
+      <div class="visual-circle visual-circle--1"></div>
+      <div class="visual-circle visual-circle--2"></div>
+      <div class="visual-circle visual-circle--3"></div>
 
-      <h2>Upload Medical Report</h2>
-      <p class="subtitle">
-        Upload your pregnancy medical report and the system will automatically extract values and fill the prediction form for you.
-      </p>
+      <div class="visual-content">
+        <div class="visual-badge">OCR Document Scan</div>
+        <h2 class="visual-title">Auto-fill from<br /><em>your report.</em></h2>
+        <p class="visual-desc">
+          Upload any pregnancy medical report image and our OCR engine will automatically extract and pre-fill the prediction form — saving time and eliminating manual errors.
+        </p>
 
-      <div class="info-box">
-        <b>Steps:</b>
-        <ul>
-          <li>Upload clear report image</li>
-          <li>Wait for automatic extraction</li>
-          <li>Review extracted data</li>
-          <li>Submit prediction form</li>
-        </ul>
+        <div class="visual-steps">
+          <div class="vstep">
+            <div class="vstep-num">1</div>
+            <div class="vstep-text">Upload a clear report image</div>
+          </div>
+          <div class="vstep-line"></div>
+          <div class="vstep">
+            <div class="vstep-num">2</div>
+            <div class="vstep-text">Automatic data extraction</div>
+          </div>
+          <div class="vstep-line"></div>
+          <div class="vstep">
+            <div class="vstep-num">3</div>
+            <div class="vstep-text">Review extracted values</div>
+          </div>
+          <div class="vstep-line"></div>
+          <div class="vstep">
+            <div class="vstep-num">4</div>
+            <div class="vstep-text">Submit prediction form</div>
+          </div>
+        </div>
+
+        <div class="visual-note">
+          <span>🔒</span>
+          <span>Your data is processed securely and never stored.</span>
+        </div>
       </div>
+    </div>
 
-      <form id="imageForm">
-        <input type="file" id="imageInput" accept="image/*" required />
-        <button type="submit">Extract Report Data & Fill</button>
-      </form>
+    <!-- Right: Upload panel -->
+    <div class="upload-panel">
+      <div class="upload-card">
 
-      <div id="loader">
-        ⏳ Extracting report data...
+        <div class="upload-icon-wrap">
+          <div class="upload-icon">📄</div>
+        </div>
+
+        <div class="upload-header">
+          <div class="upload-eyebrow">Step 1 of 4</div>
+          <h1 class="upload-title">Upload Medical Report</h1>
+          <p class="upload-subtitle">Select a clear image of your pregnancy report for automatic extraction.</p>
+        </div>
+
+        <form id="imageForm">
+
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="imageInput" accept="image/*" required class="file-input" />
+            <div class="dropzone-content" id="dropzoneContent">
+              <div class="dropzone-icon">🖼️</div>
+              <p class="dropzone-label">Drag & drop your report here</p>
+              <p class="dropzone-sub">or <span class="dropzone-browse">browse files</span></p>
+              <p class="dropzone-formats">Supports: JPG, PNG, WEBP, HEIC</p>
+            </div>
+            <div class="dropzone-preview" id="dropzonePreview" style="display:none;">
+              <img id="previewImg" src="" alt="Preview" />
+              <div class="preview-info">
+                <p class="preview-name" id="previewName"></p>
+                <button type="button" class="preview-remove" id="removeFile">✕ Remove</button>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-upload" id="submitBtn" disabled>
+            Extract Report Data &amp; Fill →
+          </button>
+
+        </form>
+
+        <!-- Loader -->
+        <div id="loader" class="loader-wrap" style="display:none;">
+          <div class="loader-spinner"></div>
+          <p class="loader-text">Extracting report data…</p>
+          <p class="loader-sub">This may take a few seconds</p>
+        </div>
+
       </div>
+    </div>
 
-      <p class="note">
-        Your data is processed securely and not stored.
-      </p>
-
-    </section>
   </main>
 
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <img src="images/logo.png" alt="PreTermCare Logo" class="footer-logo" />
+      <span class="brand-sub" style="color:#fff;opacity:.9;font-size:.72rem;">PreTermCare</span>
+      <p class="disclaimer">For clinical decision-support only. Not a substitute for professional medical advice.</p>
+      <p class="copyright">© 2025 PreTermCare. All rights reserved.</p>
+    </div>
+  </footer>
+
   <script src="js/imageprocess.js"></script>
+  <script>
+    /* ── Navbar scroll ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 24);
+    });
+
+    /* ── Dropzone UI enhancements ── */
+    const dropzone      = document.getElementById('dropzone');
+    const fileInput     = document.getElementById('imageInput');
+    const dropContent   = document.getElementById('dropzoneContent');
+    const dropPreview   = document.getElementById('dropzonePreview');
+    const previewImg    = document.getElementById('previewImg');
+    const previewName   = document.getElementById('previewName');
+    const removeBtn     = document.getElementById('removeFile');
+    const submitBtn     = document.getElementById('submitBtn');
+
+    function showPreview(file) {
+      const url = URL.createObjectURL(file);
+      previewImg.src = url;
+      previewName.textContent = file.name;
+      dropContent.style.display  = 'none';
+      dropPreview.style.display  = 'flex';
+      submitBtn.disabled = false;
+    }
+
+    function clearPreview() {
+      fileInput.value   = '';
+      previewImg.src    = '';
+      dropContent.style.display  = 'flex';
+      dropPreview.style.display  = 'none';
+      submitBtn.disabled = true;
+    }
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files[0]) showPreview(fileInput.files[0]);
+    });
+
+    removeBtn.addEventListener('click', (e) => { e.preventDefault(); clearPreview(); });
+
+    /* Drag-and-drop */
+    dropzone.addEventListener('dragover',  (e) => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+    dropzone.addEventListener('dragleave', ()  => dropzone.classList.remove('drag-over'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        /* Assign to file input via DataTransfer */
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        fileInput.files = dt.files;
+        showPreview(file);
+      }
+    });
+  </script>
+
 </body>
 </html>

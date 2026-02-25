@@ -1,37 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <title>Review Extracted Medical Data</title>
-    <link rel="stylesheet" href="css/ocr-review.css" />
-    <script defer src="js/ocr-review.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review Extracted Data – PreTermCare</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/ocr-review.css" />
+  <script defer src="js/ocr-review.js"></script>
 </head>
 
 <body>
-    <header class="header">
-        <a href="index.html" style="text-decoration: none; color: inherit;">
-            <h1 class="logo" style="cursor: pointer;">PreTermCare</h1>
-        </a>
-    </header>
-    <main class="main">
-        <section class="upload-card">
-    
 
-            <div class="container">
-                <h2>Extracted Medical Report Data</h2>
-                <p class="subtitle">Please review the automatically extracted information.</p>
+  <!-- ════════════ NAVBAR ════════════ -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="brand brand-vertical">
+      <img src="images/logo.png" alt="PreTermCare Logo" class="nav-logo-big" />
+      <span class="brand-sub">PreTermCare</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <span class="nav-divider"></span>
+      <a href="imageprocess.html" class="nav-btn nav-btn--ghost">← Re-upload</a>
+    </nav>
+  </header>
 
-                <form id="ocrForm">
-                    <div id="ocrFeatures" class="grid"></div>
+  <!-- ════════════ MAIN ════════════ -->
+  <main class="review-page">
 
-                    <button type="button" id="nextBtn" class="primary-btn">
-                        Add Additional Information →
-                    </button>
-                </form>
-            </div>
-        </section>
-    </main>
+    <!-- Page header -->
+    <div class="review-topbar">
+      <div class="review-topbar-inner">
+        <div class="topbar-left">
+          <div class="topbar-eyebrow">Step 3 of 4</div>
+          <h1 class="topbar-title">Review Extracted Data</h1>
+          <p class="topbar-sub">Verify the automatically extracted values below. Edit any incorrect fields before continuing.</p>
+        </div>
+        <div class="topbar-badge">
+          <span class="badge-icon">🔍</span>
+          <span>OCR Extraction Complete</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review content -->
+    <div class="review-content">
+
+      <!-- Info banner -->
+      <div class="review-banner">
+        <span class="banner-icon">ℹ️</span>
+        <span>Review the fields below. Fields shown with a <span class="badge-extracted">Auto-filled</span> tag were extracted from your report — please verify their accuracy.</span>
+      </div>
+
+      <form id="ocrForm">
+
+        <!-- Grid populated by ocr-review.js -->
+        <div id="ocrFeatures" class="ocr-grid"></div>
+
+        <div class="review-actions">
+          <a href="imageprocess.html" class="btn-back">← Re-upload Report</a>
+          <button type="button" id="nextBtn" class="btn-continue">
+            Add Additional Information →
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <img src="images/logo.png" alt="PreTermCare Logo" class="footer-logo" />
+      <span class="brand-sub" style="color:#fff;opacity:.9;font-size:.72rem;">PreTermCare</span>
+      <p class="disclaimer">For clinical decision-support only. Not a substitute for professional medical advice.</p>
+      <p class="copyright">© 2025 PreTermCare. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 24);
+    });
+  </script>
+
 </body>
-
 </html>
